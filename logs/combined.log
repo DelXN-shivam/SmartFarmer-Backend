@@ -39,3 +39,7 @@
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-06-30T07:21:25.647Z"}
 {"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-06-30T07:42:06.599Z"}
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-06-30T07:42:06.921Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-06-30T07:56:01.155Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-06-30T07:56:03.206Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-06-30T08:01:35.688Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-06-30T08:01:35.948Z"}
