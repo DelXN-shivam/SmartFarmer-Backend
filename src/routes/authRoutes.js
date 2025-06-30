@@ -12,6 +12,8 @@ import {
   loginSchema, 
   updateProfileSchema 
 } from '../validations/authValidation.js';
+import { demoSchema, updateDemoSchema } from '../validations/demoValidation.js';
+import { demoGet, demoRegister, demoUpdate } from '../controllers/demoController.js';
 
 const router = express.Router();
 
@@ -19,7 +21,9 @@ router.post('/register', validateRequest(registerSchema), registerUser);
 router.post('/login', validateRequest(loginSchema), loginUser);
 router.get('/profile', authenticateJWT, getUserProfile);
 router.put('/profile', authenticateJWT, validateRequest(updateProfileSchema), updateUserProfile);
-
+router.post('/demo' ,validateRequest(demoSchema) , demoRegister )
+router.get('/demo' ,authenticateJWT  , demoGet )
+router.put('/demo' , authenticateJWT , validateRequest(updateDemoSchema) , demoUpdate )
 
 
 export default router;
