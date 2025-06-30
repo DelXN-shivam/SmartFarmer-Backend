@@ -33,6 +33,11 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// A simple root route
+app.get('/', (req, res) => {
+    res.send('SmartFarmer API is running...');
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 
