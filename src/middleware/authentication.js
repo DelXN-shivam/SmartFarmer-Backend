@@ -13,9 +13,7 @@ export const authenticateJWT = (req, res, next) => {
         return res.sendStatus(403);
       }
 
-      console.log(`@@@@@   ${user}   @@@@@`);
       req.user = user;
-      
       
       next();
     });

@@ -9,7 +9,7 @@ import rateLimit from 'express-rate-limit';
 import connectDB from './config/database.js';
 import logger from './config/logger.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
-import authRoutes from './routes/authRoutes.js';
+import rootRouter from './routes/index.js';
 
 // Load environment variables
 dotenv.config();
@@ -39,8 +39,7 @@ app.get('/', (req, res) => {
 });
 
 // Routes
-app.use('/api/auth', authRoutes);
-
+app.use('/api', rootRouter);
 // Error Handling Middleware
 app.use(notFoundHandler);
 app.use(errorHandler);

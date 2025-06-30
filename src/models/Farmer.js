@@ -1,19 +1,59 @@
 import mongoose from 'mongoose';
 
 const farmerSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  phone: { type: String, required: true, unique: true },
-  email: { type: String },
-  password: { type: String, required: true },
-  location: { type: String },
-  landSize: { type: Number }, // in acres/hectares
-  crops: [{ type: String }],
-  aadhaarNumber: { type: String },
+  name: {
+    type: String, 
+    //  required: true
+    },
+  email: {
+    type: String,
+    unique: true
+  },
+  contact: {
+    type: String,
+    // required: true,
+    unique: true
+  },
+  aadhaarNumber: { 
+    type: String ,
+    unique : true
+  },
+  village: {
+    type: String
+  },
+  landMark: {
+    type: String
+  },
+  taluka: {
+    type: String
+  },
+  district: {
+    type: String
+  },
+  state : {
+    type  : String
+  } ,
+  pincode: {
+    type: String
+  },
+  password: { 
+    type: String, 
+    // required: true
+  },
+  location: {
+    latitude: {
+      type: Number
+    },
+    longitude: {
+      type: Number
+    }
+  },
   isVerified: { type: Boolean, default: false },
-  submittedDocuments: [{ type: String }], // URLs or filenames
+  submittedDocuments: [{ type: String }], 
   applicationStatus: { type: String, enum: ['pending', 'verified', 'rejected'], default: 'pending' },
-  createdAt: { type: Date, default: Date.now }
-});
+} , {
+  timestamps : true
+} );
 
-const Farmer =  mongoose.models.Farmer || mongoose.model("Farmer", farmerSchema);
+const Farmer = mongoose.models.Farmer || mongoose.model("Farmer", farmerSchema);
 export default Farmer;

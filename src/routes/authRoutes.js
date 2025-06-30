@@ -15,15 +15,17 @@ import {
 import { demoSchema, updateDemoSchema } from '../validations/demoValidation.js';
 import { demoGet, demoRegister, demoUpdate } from '../controllers/demoController.js';
 
-const router = express.Router();
+const authRouter = express.Router();
+// 
+authRouter.post('/register', validateRequest(registerSchema), registerUser);
+authRouter.post('/login', validateRequest(loginSchema), loginUser);
 
-router.post('/register', validateRequest(registerSchema), registerUser);
-router.post('/login', validateRequest(loginSchema), loginUser);
-router.get('/profile', authenticateJWT, getUserProfile);
-router.put('/profile', authenticateJWT, validateRequest(updateProfileSchema), updateUserProfile);
-router.post('/demo' ,validateRequest(demoSchema) , demoRegister )
-router.get('/demo' ,authenticateJWT  , demoGet )
-router.put('/demo' , authenticateJWT , validateRequest(updateDemoSchema) , demoUpdate )
+//
+authRouter.get('/profile', authenticateJWT, getUserProfile);
+authRouter.put('/profile', authenticateJWT, validateRequest(updateProfileSchema), updateUserProfile);
+authRouter.post('/demo' ,validateRequest(demoSchema) , demoRegister )
+authRouter.get('/demo' ,authenticateJWT  , demoGet )
+authRouter.put('/demo' , authenticateJWT , validateRequest(updateDemoSchema) , demoUpdate )
 
 
-export default router;
+export default authRouter;
