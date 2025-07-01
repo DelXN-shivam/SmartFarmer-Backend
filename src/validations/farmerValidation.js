@@ -47,3 +47,8 @@ export const updateFarmerValidation = Joi.object({
   submittedDocuments: Joi.array().items(Joi.string()),
   applicationStatus: Joi.string().valid('pending', 'verified', 'rejected')
 }).min(1); // require at least one field to update
+
+export const loginFarmerValidation = Joi.object({
+  email : Joi.string().email(),
+  password : Joi.string()
+})
