@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 const farmerSchema = new mongoose.Schema({
   name: {
-    type: String, 
+    type: String,
     //  required: true
-    },
+  },
   email: {
     type: String,
     unique: true
@@ -14,9 +14,9 @@ const farmerSchema = new mongoose.Schema({
     // required: true,
     unique: true
   },
-  aadhaarNumber: { 
-    type: String ,
-    unique : true
+  aadhaarNumber: {
+    type: String,
+    unique: true
   },
   village: {
     type: String
@@ -30,14 +30,14 @@ const farmerSchema = new mongoose.Schema({
   district: {
     type: String
   },
-  state : {
-    type  : String
-  } ,
+  state: {
+    type: String
+  },
   pincode: {
     type: String
   },
-  password: { 
-    type: String, 
+  password: {
+    type: String,
     // required: true
   },
   location: {
@@ -49,11 +49,17 @@ const farmerSchema = new mongoose.Schema({
     }
   },
   isVerified: { type: Boolean, default: false },
-  submittedDocuments: [{ type: String }], 
+  submittedDocuments: [{ type: String }],
   applicationStatus: { type: String, enum: ['pending', 'verified', 'rejected'], default: 'pending' },
-} , {
-  timestamps : true
-} );
+  // models/Farmer.js
+  crops: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Crop'
+  }]
+
+}, {
+  timestamps: true
+});
 
 const Farmer = mongoose.models.Farmer || mongoose.model("Farmer", farmerSchema);
 export default Farmer;
