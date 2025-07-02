@@ -5,19 +5,19 @@ import Farmer from '../models/Farmer.js';
 export const addCrop = async (req, res) => {
   try {
     const { farmerId } = req.params;
-    if(farmerId.length == 0){
-        return res.json({
-            message : "Please provide valid FarmerId"
-        })
+    if (farmerId.length == 0) {
+      return res.json({
+        message: "Please provide valid FarmerId"
+      })
     }
 
     const farmer = await Farmer.findById(farmerId);
-    if(!farmer){
-        return res.status(409).json({
-            error : "Farmer with given id does not exist"
-        })
+    if (!farmer) {
+      return res.status(409).json({
+        error: "Farmer with given id does not exist"
+      })
     }
-    
+
     const cropData = req.body;
     cropData.farmerId = farmerId;
 
@@ -39,3 +39,82 @@ export const addCrop = async (req, res) => {
     });
   }
 };
+
+export const updateCrop = async (req, res) => {
+  try {
+    const { cropId } = req.params;
+
+    // 1. Check if crop exists
+    const crop = await Crop.findById(cropId);
+    if (!crop) {
+      return res.status(409).json({
+        message: "Crop with given ID does not exist"
+      });
+    }
+
+    let updateData = {};
+    Object.entries(req.body).forEach(([key, value]) => {
+      if (
+        value !== "" &&
+        value !== null &&
+        value !== undefined &&
+        !(typeof value === "object" && Object.keys(value).length === 0)
+      ) {
+        updateData[key] = value;
+      }
+    });
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ message: "No valid data provided to update." });
+    }
+
+    // 3. Perform update
+    const updatedCrop = await Crop.findByIdAndUpdate(cropId, { $set: updateData }, { new: true });
+
+    return res.status(200).json({
+      message: "Crop updated successfully",
+      updatedCrop
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      error: "Error while updating crop",
+      message: err.message
+    });
+  }
+};
+
+export const deleteCrop = async (req, res) => {
+  try {
+    const {cropId} = req.params;
+
+    if (!cropId) {
+      return res.status(409).json({
+        message: "Please pass a cropId"
+      })
+    }
+
+    const crop = await Crop.findById( cropId );
+    if (!crop) {
+      return res.status(409).json({
+        message: "Crop dose not exist for the given Id"
+      })
+    }
+
+    const deletedCrop = await Crop.findByIdAndDelete( cropId );
+    if (!deletedCrop) {
+      return res.status(409).json({
+        message: "Cannot delete Crop , please try again"
+      })
+    }
+
+    return res.status(200).json({
+      message: "Crop deleted Succesfully"
+    })
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message : "Erro while deleting Crop"
+    })
+  }
+}

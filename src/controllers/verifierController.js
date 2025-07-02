@@ -19,7 +19,7 @@ export const verifierRegister = async ( req , res , next ) => {
         const verifier = await Verifier.create(body);
         const token = generateToken({ id: verifier._id});
 
-        return res.status(200).json({
+        return res.status(201).json({
             message : "New Verifier Created",
             verifier ,
             token
