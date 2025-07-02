@@ -86,7 +86,7 @@ export const updateCrop = async (req, res) => {
 
 export const deleteCrop = async (req, res) => {
   try {
-    const {cropId} = req.params;
+    const { cropId } = req.params;
 
     if (!cropId) {
       return res.status(409).json({
@@ -94,14 +94,14 @@ export const deleteCrop = async (req, res) => {
       })
     }
 
-    const crop = await Crop.findById( cropId );
+    const crop = await Crop.findById(cropId);
     if (!crop) {
       return res.status(409).json({
         message: "Crop dose not exist for the given Id"
       })
     }
 
-    const deletedCrop = await Crop.findByIdAndDelete( cropId );
+    const deletedCrop = await Crop.findByIdAndDelete(cropId);
     if (!deletedCrop) {
       return res.status(409).json({
         message: "Cannot delete Crop , please try again"
@@ -114,7 +114,84 @@ export const deleteCrop = async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({
-      message : "Erro while deleting Crop"
+      message: "Erro while deleting Crop"
     })
   }
 }
+
+const formatInput = (value) => {
+  if (!value) return value;
+  return value
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+export const filterCrop = async (req, res) => {
+  try {
+    const { cropType, acresMin, acresMax } = req.query;
+    const query = {};
+
+    if (cropType) query.cropType = formatInput(cropType);
+
+    if (acresMin || acresMax) {
+      query.acres = {};
+      if (acresMin) query.acres.$gte = Number(acresMin);
+      if (acresMax) query.acres.$lte = Number(acresMax);
+    }
+    const crops = await Crop.find(query);
+
+    if (!crops) {
+      return res.status(409).json({
+        message: "Crops not found"
+      })
+    }
+
+    return res.status(200).json({
+      message : "Crops found successfully",
+      crops
+    })
+  } catch (err){
+    console.error (err);
+    return res.status(500).json({
+      error: "Error while filtering crops",
+      message : err.message
+    })
+  }
+}
+
+
+export const getCrop = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      return res.status(403).json({
+        message: "Please pass a valid ID"
+      });
+    }
+
+    const crop = await Crop.findById(id);
+
+    if (!crop) {
+      return res.status(404).json({
+        message: "crop not found"
+      });
+    }
+
+    return res.status(200).json({
+      message: "crop found",
+      crop
+    });
+
+  } catch (err) {
+    console.error(err);
+    logger.error(err);
+
+    return res.status(500).json({
+      message: "Error while fetching crop",
+      error: err.message
+    });
+  }
+};

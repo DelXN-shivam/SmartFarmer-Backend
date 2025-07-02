@@ -18,6 +18,9 @@ const farmerSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
+  age : {
+    type : Number
+  },
   village: {
     type: String
   },
