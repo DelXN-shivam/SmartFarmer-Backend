@@ -23,9 +23,9 @@ authRouter.post('/login', validateRequest(loginSchema), loginUser);
 //
 authRouter.get('/profile', authenticateJWT, getUserProfile);
 authRouter.put('/profile', authenticateJWT, validateRequest(updateProfileSchema), updateUserProfile);
-authRouter.post('/demo' ,validateRequest(demoSchema) , demoRegister )
-authRouter.get('/demo' ,authenticateJWT  , demoGet )
-authRouter.put('/demo' , authenticateJWT , validateRequest(updateDemoSchema) , demoUpdate )
+// authRouter.post('/demo' ,validateRequest(demoSchema) , demoRegister )
+// authRouter.get('/demo' ,authenticateJWT  , demoGet )
+// authRouter.put('/demo' , authenticateJWT , validateRequest(updateDemoSchema) , demoUpdate )
 
 
 export default authRouter;

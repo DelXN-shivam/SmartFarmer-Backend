@@ -180,6 +180,48 @@ export const farmerLogin = async (req, res) => {
   }
 }
 
+export const farmerLoginOtp = async (req , res) => {
+  const phoneNo = req.body;
+  if(!phoneNo){
+    return res.status(409).json({
+      message : "Please provide phoneNo"
+    })
+  }
+
+  const farmer = await Farmer.findOne({contact : phoneNo});
+  if(!farmer){
+    return res.status(409).json({
+      message : "No farmer found with given contact"
+    })
+  }
+  const token = generateToken({ id: existingFarmer._id });
+    try {
+      if (!token) {
+      return res.status(404).json({
+        error: "error while generating token"
+      })
+    }
+
+    return res.status(200).json({
+      message: 'Login successful',
+      token,
+      farmer: {
+        id: existingFarmer._id,
+        name: existingFarmer.name,
+        contact : existingFarmer.contact
+      },
+    });
+    } catch (err) {
+    console.error(err);
+    logger?.error?.(err);
+
+    return res.status(500).json({
+      message: "Error while fetching farmers",
+      error: err.message,
+    });
+  }
+}
+
 export const deleteFarmer = async (req, res) => {
   try {
     const { farmerId } = req.params;

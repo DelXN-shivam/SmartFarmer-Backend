@@ -1,1 +1,6 @@
 node_modules
+
+src/controllers/sendOtp.js
+src/controllers/verifyOtp.js
+src/models/NewUser.js
+src/routes/otpRoutes.js
