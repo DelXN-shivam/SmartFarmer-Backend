@@ -4,7 +4,7 @@ import farmerRouter from './farmerRoutes.js';
 import verifierRouter from './verifierRouter.js';
 import adminRouter from './adminRoutes.js';
 import cropRouter from './cropRoutes.js';
-import otpRouter from './otpRoutes.js';
+//import otpRouter from './otpRoutes.js';
 
 const rootRouter = express.Router();
 
