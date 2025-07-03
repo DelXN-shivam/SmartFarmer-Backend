@@ -48,7 +48,7 @@ export const getVerifier = async (req, res, next) => {
     const verifier = await Verifier.findById(id);
 
     if (!verifier) {
-      return res.status(404).json({
+      return res.status(409).json({
         message: "Verifier not found"
       });
     }
@@ -111,7 +111,7 @@ export const getVerifiers = async (req, res, next) => {
     const verifiers = await Verifier.find();
 
     if (verifiers.length === 0) {
-      return res.status(404).json({
+      return res.status(409).json({
         message: "No verifiers found",
       });
     }
@@ -136,26 +136,26 @@ export const verifierLogin = async ( req , res ) => {
     const {email , password} = req.body;
 
   if(!email || !password){
-    return res.status(404).json({
+    return res.status(409).json({
       error : "please send email and password"
     })
   }
   const existingVerifier = await Verifier.findOne({email});
   if(!existingVerifier){
-    return res.status(404).json({
+    return res.status(409).json({
       error : "No verifier found"
     })
   }
   const confirmPassword = bcrypt.compare(password , existingVerifier.password )
   if(!confirmPassword){
-    return res.status(404).json({
+    return res.status(409).json({
       message : "Password does not match"
     })
   }
 
   const token = generateToken({id : existingVerifier._id});
   if(!token){
-    return res.status(404).json({
+    return res.status(409).json({
       error : "error while generating token"
     })
   }
@@ -187,7 +187,7 @@ export const getUnverifiedVerifiers = async (req, res) => {
     const verifiers = await Verifier.find( {isVerified} );
 
     if (!verifiers || verifiers.length === 0) {
-      return res.status(404).json({
+      return res.status(409).json({
         message: "No unverified verifiers found"
       });
     }
@@ -220,7 +220,7 @@ export const deleteVerifier = async (req, res) => {
     const verifier = await Verifier.findByIdAndDelete(id);
 
     if (!verifier) {
-      return res.status(404).json({ message: "Verifier not found" });
+      return res.status(409).json({ message: "Verifier not found" });
     }
 
     return res.status(200).json({ message: "Verifier deleted successfully", verifier });
