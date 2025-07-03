@@ -180,8 +180,6 @@ export const verifierLogin = async ( req , res ) => {
   }
 }
 
-
-
 export const getUnverifiedVerifiers = async (req, res) => {
   try {
     const {flag} = req.params;
@@ -207,5 +205,27 @@ export const getUnverifiedVerifiers = async (req, res) => {
       message: "Error while fetching unverified verifiers",
       error: err.message
     });
+  }
+};
+
+
+export const deleteVerifier = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: "Verifier ID is required" });
+  }
+
+  try {
+    const verifier = await Verifier.findByIdAndDelete(id);
+
+    if (!verifier) {
+      return res.status(404).json({ message: "Verifier not found" });
+    }
+
+    return res.status(200).json({ message: "Verifier deleted successfully", verifier });
+  } catch (err) {
+    console.error("Error deleting verifier:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
