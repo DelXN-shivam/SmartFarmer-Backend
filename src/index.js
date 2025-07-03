@@ -20,7 +20,10 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // allow local frontend
+  credentials: true,               // allow cookies/auth headers if you're using them
+}));
 app.use(helmet());
 app.use(compression());
 app.use(morgan('combined'));
