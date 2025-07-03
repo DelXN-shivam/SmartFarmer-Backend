@@ -80,11 +80,11 @@ export  const updateVerifier = async ( req , res , next ) => {
         })
     }
 
-    const updateVerifier = await Verifier.findByIdAndUpdate(id , req.body, {
+    const updatedVerifier = await Verifier.findByIdAndUpdate(id , req.body, {
         new : true
     })
 
-    if(!updateVerifier){
+    if(!updatedVerifier){
         return res.status(402).json({
             message : "Error while updating verifier"
         })
@@ -92,7 +92,7 @@ export  const updateVerifier = async ( req , res , next ) => {
 
     return res.status(200).json({
         message : "Verifier Updated Successfully",
-        verifier : updateVerifier
+        verifier : updatedVerifier
     })
     }
     catch (err){
@@ -210,7 +210,6 @@ export const getUnverifiedVerifiers = async (req, res) => {
 };
 
 
-
 export const deleteVerifier = async (req, res) => {
   const { id } = req.params;
 
@@ -231,3 +230,26 @@ export const deleteVerifier = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
+export const countVerifier = async (req , res ) => {
+  try {
+    const count = await Verifier.countDocuments();
+
+  if(!count){
+    return res.status(409).json({
+      message : "Could not calculate count for verifier"
+    })
+  }
+
+  return res.status(200).json({
+    message : "Count caluclated for verifier",
+    count 
+  })
+  } catch(err){
+    console.error(err);
+    return res.status(500).json({
+      message : "Error while calculating counr for verifiers"
+    })
+  }
+}

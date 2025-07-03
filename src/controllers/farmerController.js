@@ -297,3 +297,27 @@ export const farmerFiletring = async (req, res) => {
     })
   }
 }
+
+export const countFarmer = async (req , res ) => {
+  try {
+    const count = await Farmer.countDocuments();
+
+  if(!count){
+    return res.status(409).json({
+      message : "Could not calculate count for farmers"
+    })
+  }
+
+  return res.status(200).json({
+    message : "Count caluclated for farmer",
+    count 
+  })
+  } catch(err){
+    console.error(err);
+    return res.status(500).json({
+      message : "Error while calculating counr for farmers"
+    })
+  }
+
+
+}
