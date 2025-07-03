@@ -182,31 +182,33 @@ export const verifierLogin = async ( req , res ) => {
 
 export const getUnverifiedVerifiers = async (req, res) => {
   try {
-    const {flag} = req.params;
-    const isVerified = Boolean(flag)
-    const verifiers = await Verifier.find( {isVerified} );
+    const { flag } = req.query; 
+    const isVerified = flag === "true"; 
+
+    const verifiers = await Verifier.find({ isVerified });
 
     if (!verifiers || verifiers.length === 0) {
-      return res.status(409).json({
-        message: "No unverified verifiers found"
+      return res.status(200).json({
+        message: "No verifiers found",
+        verifiers: [],
       });
     }
 
     return res.status(200).json({
-      message: "Unverified verifiers fetched successfully",
-      verifiers
+      message: "Verifiers fetched successfully",
+      verifiers,
     });
 
   } catch (err) {
     console.error(err);
-    logger.error(err);
 
     return res.status(500).json({
-      message: "Error while fetching unverified verifiers",
-      error: err.message
+      message: "Error while fetching verifiers",
+      error: err.message,
     });
   }
 };
+
 
 
 export const deleteVerifier = async (req, res) => {
