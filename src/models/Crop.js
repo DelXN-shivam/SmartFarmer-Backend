@@ -4,8 +4,15 @@ import dayjs from 'dayjs';
 const cropSchema = new mongoose.Schema({
   name: { type: String },
   area: {
-    type: Number,
-    enum : ['acre' , 'guntha']
+    value: {
+      type: Number,
+      required: true
+    },
+    unit: {
+      type: String,
+      enum: ['acre', 'guntha'],
+      required: true
+    }
   },
   cropType: { type: String },
   soilType: { type: String },
