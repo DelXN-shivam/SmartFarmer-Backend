@@ -51,6 +51,10 @@ const verifierSchema = new mongoose.Schema({
       type: Number
     }
   },
+  role : {
+    type : String ,
+    enum : ['farmer' , 'verifier']
+  },
   isVerified: { type: Boolean, default: false },
   submittedDocuments: [{ type: String }], 
   applicationStatus: { type: String, enum: ['pending', 'verified', 'rejected'], default: 'pending' },

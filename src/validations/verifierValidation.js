@@ -42,7 +42,7 @@ export const updateVerifierValidation = Joi.object({
     latitude: Joi.number(),
     longitude: Joi.number()
   }),
-
+  role : Joi.string().valid('farmer' , 'verifier'),
   isVerified: Joi.boolean(),
   submittedDocuments: Joi.array().items(Joi.string()),
   applicationStatus: Joi.string().valid('pending', 'verified', 'rejected')
