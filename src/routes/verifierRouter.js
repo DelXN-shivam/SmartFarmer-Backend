@@ -10,7 +10,7 @@ verifierRouter.post('/register' , validateRequest(verifierValidationSchema) , ve
 verifierRouter.get('/unverified' ,authenticateJWT , getUnverifiedVerifiers) 
 verifierRouter.get('/filter', authenticateJWT , verifierFiletring); 
 verifierRouter.get('/count' , authenticateJWT , countVerifier);
-verifierRouter.get('/contact' , getVerifierByPhone)
+verifierRouter.post('/contact' , getVerifierByPhone)
 verifierRouter.get('/' , authenticateJWT , getVerifiers);
 verifierRouter.get('/:id' , authenticateJWT , getVerifier);
 verifierRouter.patch('/update/:id' , validateRequest(updateVerifierValidation) , authenticateJWT , updateVerifier);
