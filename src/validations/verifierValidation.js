@@ -18,7 +18,7 @@ export const verifierValidationSchema = Joi.object({
     latitude: Joi.number().optional(),
     longitude: Joi.number().optional()
   }).optional(),
-
+  role : Joi.string().valid('farmer' , 'verifier'),
   isVerified: Joi.boolean().optional(),
   submittedDocuments: Joi.array().items(Joi.string()).optional(),
   applicationStatus: Joi.string().valid('pending', 'verified', 'rejected').optional()
