@@ -9,7 +9,7 @@ const farmerRouter = express.Router();
 farmerRouter.post('/register', validateRequest(farmerValidationSchema), farmerRegister); 
 //farmerRouter.get('/phoneNo', farmerLoginOtp); // specific
 farmerRouter.post('/login', validateRequest(loginFarmerValidation), farmerLogin); // specific
-farmerRouter.get('/contact' , authenticateJWT , getFarmerByPhone);
+farmerRouter.get('/contact'  , getFarmerByPhone);
 // Protected routes
 farmerRouter.get('/count' , authenticateJWT , countFarmer);
 farmerRouter.get('/filter', authenticateJWT, farmerFiletring); // specific
