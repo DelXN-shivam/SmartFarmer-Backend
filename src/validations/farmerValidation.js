@@ -44,7 +44,7 @@ export const updateFarmerValidation = Joi.object({
     longitude: Joi.number()
   }),
   isVerified: Joi.boolean(),
-  submittedDocuments: Joi.array().items(Joi.string()),
+  submittedDocuments: Joi.array().items(Joi.string()).optional(),
   applicationStatus: Joi.string().valid('pending', 'verified', 'rejected')
 }).min(1); // require at least one field to update
 

@@ -3,21 +3,25 @@ import dayjs from 'dayjs';
 
 const cropSchema = new mongoose.Schema({
   name: { type: String },
-  acres: { type: Number },
+  area: {
+    type: Number,
+    enum : ['acre' , 'guntha']
+  },
   cropType: { type: String },
   soilType: { type: String },
-  sowingDate: { type: Date },  
-  expectedHarvestDate: { type: Date },  
+  sowingDate: { type: Date },
+  expectedFirstHarvestDate: { type: Date },
+  expectedLastHarvestDate: { type: Date },
   expectedYield: { type: Number },
   previousCrop: { type: String },
   latitude: { type: Number },
   longitude: { type: Number },
   images: { type: [String] },
   farmerId: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: 'Farmer',
-  required: true
-}
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Farmer',
+    required: true
+  }
 
 }, {
   timestamps: true
