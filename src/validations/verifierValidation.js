@@ -3,6 +3,7 @@ import Joi from 'joi';
 export const verifierValidationSchema = Joi.object({
   name: Joi.string().optional(),
   email: Joi.string().email().optional(),
+  age : Joi.number(),
   contact: Joi.string().pattern(/^[0-9]{10}$/).optional(), // assuming 10-digit mobile
   aadhaarNumber: Joi.string().length(12).pattern(/^[0-9]+$/).optional(),
   village: Joi.string().optional(),
@@ -18,15 +19,13 @@ export const verifierValidationSchema = Joi.object({
     latitude: Joi.number().optional(),
     longitude: Joi.number().optional()
   }).optional(),
-  role : Joi.string().valid('farmer' , 'verifier'),
-  isVerified: Joi.boolean().optional(),
-  submittedDocuments: Joi.array().items(Joi.string()).optional(),
-  applicationStatus: Joi.string().valid('pending', 'verified', 'rejected').optional()
+  role : Joi.string().valid('farmer' , 'verifier')
 });
 
 export const updateVerifierValidation = Joi.object({
   name: Joi.string(),
   email: Joi.string().email(),
+  age : Joi.number(),
   contact: Joi.string().pattern(/^[0-9]{10}$/),
   aadhaarNumber: Joi.string().length(12).pattern(/^[0-9]+$/),
   village: Joi.string(),
@@ -42,10 +41,7 @@ export const updateVerifierValidation = Joi.object({
     latitude: Joi.number(),
     longitude: Joi.number()
   }),
-  role : Joi.string().valid('farmer' , 'verifier'),
-  isVerified: Joi.boolean(),
-  submittedDocuments: Joi.array().items(Joi.string()),
-  applicationStatus: Joi.string().valid('pending', 'verified', 'rejected')
+  role : Joi.string().valid('farmer' , 'verifier')
 }).min(1); // require at least one field to update
 
 export const loginVerifierValidation = Joi.object({

@@ -40,7 +40,7 @@ export const getFarmer = async (req, res) => {
     const id = req.params.id;
 
     if (!id) {
-      return res.status(403).json({
+      return res.status(409).json({
         message: "Please pass a valid ID"
       });
     }
@@ -75,7 +75,7 @@ export const updateFarmer = async (req, res) => {
 
     const existingFarmer = await Farmer.findById(id);
     if (!existingFarmer) {
-      return res.status(402).json({
+      return res.status(409).json({
         message: "Farmer does not exist , no farmer found"
       })
     }
@@ -85,7 +85,7 @@ export const updateFarmer = async (req, res) => {
     })
 
     if (!updateFarmer) {
-      return res.status(402).json({
+      return res.status(409).json({
         message: "Error while updating farmer"
       })
     }
@@ -111,7 +111,7 @@ export const getFarmers = async (req, res) => {
     const farmers = await Farmer.find();
 
     if (farmers.length === 0) {
-      return res.status(404).json({
+      return res.status(409).json({
         message: "No farmers found",
       });
     }
@@ -136,7 +136,7 @@ export const farmerLogin = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(404).json({
+      return res.status(409).json({
         error: "please send email and password"
       })
     }
@@ -148,14 +148,14 @@ export const farmerLogin = async (req, res) => {
     }
     const confirmPassword = bcrypt.compare(password, existingFarmer.password)
     if (!confirmPassword) {
-      return res.status(404).json({
+      return res.status(409).json({
         message: "Password does not match"
       })
     }
 
     const token = generateToken({ id: existingFarmer._id });
     if (!token) {
-      return res.status(404).json({
+      return res.status(409).json({
         error: "error while generating token"
       })
     }
@@ -222,7 +222,7 @@ export const deleteFarmer = async (req, res) => {
   try {
     const { farmerId } = req.params;
     if (!farmerId) {
-      return res.status(411).json({
+      return res.status(409).json({
         message: "Please provide farmerId"
       })
     }
