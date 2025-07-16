@@ -329,6 +329,7 @@ export const farmerRegisterWithContact = async (req, res, next) => {
     const farmer = await Farmer.create({ contact, ...rest });
     const token = generateToken({ id: farmer._id });
     return res.status(201).json({
+      status: true,
       message: 'New Farmer Created with Contact',
       farmer,
       token
