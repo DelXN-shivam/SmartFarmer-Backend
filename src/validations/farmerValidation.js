@@ -52,3 +52,22 @@ export const loginFarmerValidation = Joi.object({
   email : Joi.string().email(),
   password : Joi.string()
 })
+
+export const farmerContactRegisterSchema = Joi.object({
+  contact: Joi.string().pattern(/^[0-9]{10}$/).required(),
+  name: Joi.string().optional(),
+  aadhaarNumber: Joi.string().length(12).pattern(/^[0-9]+$/).optional(),
+  village: Joi.string().optional(),
+  landMark: Joi.string().optional(),
+  taluka: Joi.string().optional(),
+  district: Joi.string().optional(),
+  state: Joi.string().optional(),
+  pincode: Joi.string().pattern(/^[1-9][0-9]{5}$/).optional(),
+  location: Joi.object({
+    latitude: Joi.number().optional(),
+    longitude: Joi.number().optional()
+  }).optional(),
+  isVerified: Joi.boolean().optional(),
+  submittedDocuments: Joi.array().items(Joi.string()).optional(),
+  applicationStatus: Joi.string().valid('pending', 'verified', 'rejected').optional()
+});
