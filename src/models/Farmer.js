@@ -5,10 +5,10 @@ const farmerSchema = new mongoose.Schema({
     type: String,
     //  required: true
   },
-  email: {
-    type: String,
-    unique: true
-  },
+  // email: {
+  //   type: String,
+  //   unique: true
+  // },
   contact: {
     type: String,
     // required: true,
