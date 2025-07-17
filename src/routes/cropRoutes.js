@@ -7,7 +7,8 @@ import { addCrop, deleteCrop, filterCrop, getCrop, updateCrop } from '../control
 
 const cropRouter = express.Router();
 
-cropRouter.post('/add/:farmerId', authenticateJWT, validateRequest(cropValidationSchema), addCrop);
+// cropRouter.post('/add/:farmerId', authenticateJWT, validateRequest(cropValidationSchema), addCrop);
+cropRouter.post('/add/:farmerId', validateRequest(cropValidationSchema), addCrop);
 cropRouter.patch('/update/:cropId' , authenticateJWT , updateCrop);
 cropRouter.delete('/:cropId' , authenticateJWT , deleteCrop);
 cropRouter.get("/filter" , authenticateJWT , filterCrop);
