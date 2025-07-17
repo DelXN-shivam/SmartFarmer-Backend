@@ -10,7 +10,7 @@ farmerRouter.post('/register', validateRequest(farmerValidationSchema), farmerRe
 farmerRouter.post('/register/contact', validateRequest(farmerContactRegisterSchema), farmerRegisterWithContact);
 //farmerRouter.get('/phoneNo', farmerLoginOtp); // specific
 farmerRouter.post('/login', validateRequest(loginFarmerValidation), farmerLogin); // specific
-farmerRouter.post('/contact'  , getFarmerByPhone);
+farmerRouter.get('/contact'  , getFarmerByPhone);
 // Protected routes
 farmerRouter.get('/count' , authenticateJWT , countFarmer);
 farmerRouter.get('/filter', authenticateJWT, farmerFiletring); // specific
