@@ -224,3 +224,23 @@ export const getCropsByIds = async (req, res) => {
     });
   }
 };
+
+export const getCropsByFarmerId = async (req, res) => {
+  try {
+    const { farmerId } = req.params;
+    if (!farmerId) {
+      return res.status(400).json({ message: "No farmerId provided" });
+    }
+    const crops = await Crop.find({ farmerId });
+    return res.status(200).json({
+      message: "Crops fetched successfully",
+      crops
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "Error while fetching crops by farmerId",
+      error: err.message
+    });
+  }
+};
