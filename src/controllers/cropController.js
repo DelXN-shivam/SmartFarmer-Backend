@@ -130,36 +130,46 @@ const formatInput = (value) => {
 
 export const filterCrop = async (req, res) => {
   try {
-    const { cropType, acresMin, acresMax } = req.query;
+    const {
+      state,
+      district,
+      taluka,
+      village,
+      cropType,
+    } = req.query;
+
     const query = {};
 
+    // Apply location filters
+    if (state) query.state = formatInput(state);
+    if (district) query.district = formatInput(district);
+    if (taluka) query.taluka = formatInput(taluka);
+    if (village) query.village = formatInput(village);
+
+    // Apply crop-specific filters
     if (cropType) query.cropType = formatInput(cropType);
 
-    if (acresMin || acresMax) {
-      query.acres = {};
-      if (acresMin) query.acres.$gte = Number(acresMin);
-      if (acresMax) query.acres.$lte = Number(acresMax);
-    }
     const crops = await Crop.find(query);
 
-    if (!crops) {
-      return res.status(409).json({
-        message: "Crops not found"
-      })
+    if (!crops || crops.length === 0) {
+      return res.status(404).json({
+        message: "No crops found for the given filters"
+      });
     }
 
     return res.status(200).json({
-      message : "Crops found successfully",
+      message: "Crops found",
       crops
-    })
-  } catch (err){
-    console.error (err);
+    });
+
+  } catch (err) {
+    console.error("Crop filtering error:", err);
     return res.status(500).json({
       error: "Error while filtering crops",
-      message : err.message
-    })
+      message: err.message
+    });
   }
-}
+};
 
 
 export const getCrop = async (req, res) => {
