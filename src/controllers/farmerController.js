@@ -203,7 +203,7 @@ export const getFarmerByPhone = async (req , res) => {
     }
 
     return res.status(200).json({
-      message: 'Login successful',
+      message: 'Farmer Fetched successfully',
       token,
       farmer: farmer
     });
@@ -314,6 +314,32 @@ export const countFarmer = async (req , res ) => {
       message : "Error while calculating counr for farmers"
     })
   }
-
-
 }
+
+export const farmerRegisterWithContact = async (req, res, next) => {
+  try {
+    const { contact, ...rest } = req.body;
+    if (!contact) {
+      return res.status(400).json({ message: 'Contact number is required' });
+    }
+    const existingFarmer = await Farmer.findOne({ contact });
+    if (existingFarmer) {
+      return res.status(409).json({ message: 'Farmer already registered with this contact number' });
+    }
+    const farmer = await Farmer.create({ contact, ...rest });
+    const token = generateToken({ id: farmer._id });
+    return res.status(201).json({
+      success: true,
+      message: 'New Farmer Created with Contact',
+      farmer,
+      token
+    });
+  } catch (err) {
+    logger.error(err);
+    console.error(err);
+    next(err);
+    return res.status(500).json({
+      error: 'Error while farmer register with contact', err
+    });
+  }
+};

@@ -5,10 +5,10 @@ const farmerSchema = new mongoose.Schema({
     type: String,
     //  required: true
   },
-  email: {
-    type: String,
-    unique: true
-  },
+  // email: {
+  //   type: String,
+  //   unique: true
+  // },
   contact: {
     type: String,
     // required: true,
@@ -39,10 +39,10 @@ const farmerSchema = new mongoose.Schema({
   pincode: {
     type: String
   },
-  password: {
-    type: String,
-    // required: true
-  },
+  // password: {
+  //   type: String,
+  //   // required: true
+  // },
   location: {
     latitude: {
       type: Number
@@ -51,10 +51,10 @@ const farmerSchema = new mongoose.Schema({
       type: Number
     }
   },
-  role : {
-    type : String ,
-    enum : ['farmer' , 'verifier']
-  },
+  // role : {
+  //   type : String ,
+  //   enum : ['farmer' , 'verifier']
+  // },
   isVerified: { type: Boolean, default: false },
   submittedDocuments: [{ type: String }],
   applicationStatus: { type: String, enum: ['pending', 'verified', 'rejected'], default: 'pending' },

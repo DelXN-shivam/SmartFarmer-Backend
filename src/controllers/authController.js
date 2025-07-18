@@ -4,7 +4,7 @@ import logger from '../config/logger.js';
 
 export const registerUser = async (req, res, next) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -15,16 +15,17 @@ export const registerUser = async (req, res, next) => {
       name,
       email,
       password,
-      role
+      // role
     });
 
-    const token = generateToken({ id: user._id, role: user.role });
+    const token = generateToken({ id: user._id });
+    // const token = generateToken({ id: user._id, role: user.role });
 
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role,
+      // role: user.role,
       token
     });
   } catch (error) {
@@ -39,13 +40,14 @@ export const loginUser = async (req, res, next) => {
 
     const user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
-      const token = generateToken({ id: user._id, role: user.role });
+      // const token = generateToken({ id: user._id, role: user.role });
+      const token = generateToken({ id: user._id });
 
       res.json({
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        // role: user.role,
         token
       });
     } else {
@@ -81,7 +83,7 @@ export const updateUserProfile = async (req, res, next) => {
     }
 
     user.name = req.body.name || user.name;
-    user.role = req.body.role || user.role;
+    // user.role = req.body.role || user.role;
     
     if (req.body.password) {
       user.password = req.body.password;
@@ -93,7 +95,7 @@ export const updateUserProfile = async (req, res, next) => {
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      role: updatedUser.role
+      // role: updatedUser.role
     });
   } catch (error) {
     logger.error('Update profile error', error);

@@ -1,15 +1,16 @@
 import express from 'express'
 import { validateRequest } from '../middleware/validation.js';
-import { farmerValidationSchema, loginFarmerValidation, updateFarmerValidation } from '../validations/farmerValidation.js';
-import { countFarmer, deleteFarmer, farmerFiletring, farmerLogin, farmerRegister, getFarmer, getFarmerByPhone, getFarmers, updateFarmer } from '../controllers/farmerController.js';
+import { farmerValidationSchema, loginFarmerValidation, updateFarmerValidation, farmerContactRegisterSchema } from '../validations/farmerValidation.js';
+import { countFarmer, deleteFarmer, farmerFiletring, farmerLogin, farmerRegister, getFarmer, getFarmerByPhone, getFarmers, updateFarmer, farmerRegisterWithContact } from '../controllers/farmerController.js';
 import { authenticateJWT } from '../middleware/authentication.js';
 
 const farmerRouter = express.Router();
 
-farmerRouter.post('/register', validateRequest(farmerValidationSchema), farmerRegister); 
+farmerRouter.post('/register', validateRequest(farmerValidationSchema), farmerRegister);
+farmerRouter.post('/register/contact', validateRequest(farmerContactRegisterSchema), farmerRegisterWithContact);
 //farmerRouter.get('/phoneNo', farmerLoginOtp); // specific
 farmerRouter.post('/login', validateRequest(loginFarmerValidation), farmerLogin); // specific
-farmerRouter.post('/contact'  , getFarmerByPhone);
+farmerRouter.get('/contact'  , getFarmerByPhone);
 // Protected routes
 farmerRouter.get('/count' , authenticateJWT , countFarmer);
 farmerRouter.get('/filter', authenticateJWT, farmerFiletring); // specific
