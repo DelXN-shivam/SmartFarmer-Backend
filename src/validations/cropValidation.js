@@ -22,7 +22,7 @@ export const cropValidationSchema = Joi.object({
   latitude: Joi.number().min(-90).max(90).required(),
   longitude: Joi.number().min(-180).max(180).required(),
 
-  images: Joi.array().items(Joi.string().uri()).length(3).required()
+  images: Joi.array().items(Joi.string().uri()).min(1).max(3).required()
 }).custom((value, helpers) => {
   if (value.expectedFirstHarvestDate > value.expectedLastHarvestDate) {
     return helpers.error('any.invalid', {
