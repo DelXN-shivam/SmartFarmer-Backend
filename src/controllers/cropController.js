@@ -195,3 +195,32 @@ export const getCrop = async (req, res) => {
     });
   }
 };
+
+export const getCropsByIds = async (req, res) => {
+  try {
+    // Accept IDs from either query (?ids=1,2,3) or body (ids: [1,2,3])
+    let ids = req.body.ids || req.query.ids;
+    if (!ids) {
+      return res.status(400).json({ message: "No crop IDs provided" });
+    }
+    // If ids is a string (from query), split by comma
+    if (typeof ids === 'string') {
+      ids = ids.split(',').map(id => id.trim());
+    }
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ message: "Invalid crop IDs provided" });
+    }
+    // Find crops by IDs
+    const crops = await Crop.find({ _id: { $in: ids } });
+    return res.status(200).json({
+      message: "Crops fetched successfully",
+      crops
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "Error while fetching crops by IDs",
+      error: err.message
+    });
+  }
+};
