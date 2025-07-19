@@ -191,6 +191,7 @@ export const getFarmerByPhone = async (req , res) => {
   const farmer = await Farmer.findOne({contact : contact});
   if(!farmer){
     return res.status(409).json({
+      success: false,
       message : "Mobile Number not found"
     })
   }
