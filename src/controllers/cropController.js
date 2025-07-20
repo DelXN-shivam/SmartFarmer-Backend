@@ -135,7 +135,6 @@ export const filterCrop = async (req, res) => {
       district,
       taluka,
       village,
-      cropType,
     } = req.query;
 
     const query = {};
@@ -145,9 +144,6 @@ export const filterCrop = async (req, res) => {
     if (district) query.district = formatInput(district);
     if (taluka) query.taluka = formatInput(taluka);
     if (village) query.village = formatInput(village);
-
-    // Apply crop-specific filters
-    if (cropType) query.cropType = formatInput(cropType);
 
     const crops = await Crop.find(query);
 

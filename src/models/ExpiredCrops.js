@@ -3,8 +3,6 @@ import mongoose from "mongoose";
 const ExpiredCropSchema = new mongoose.Schema({
   name: String,
   acres: Number,
-  cropType: String,
-  soilType: String,
   sowingDate: Date,
   expectedHarvestDate: Date,
   expectedYield: Number,

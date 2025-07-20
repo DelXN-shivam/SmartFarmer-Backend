@@ -14,8 +14,6 @@ const cropSchema = new mongoose.Schema({
       required: true
     }
   },
-  cropType: { type: String },
-  soilType: { type: String },
   sowingDate: { type: Date },
   expectedFirstHarvestDate: { type: Date },
   expectedLastHarvestDate: { type: Date },

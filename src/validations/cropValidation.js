@@ -9,8 +9,6 @@ export const cropValidationSchema = Joi.object({
     unit: Joi.string().valid('acre', 'guntha').required()
   }).required(),
 
-  cropType: Joi.string().required(),
-  soilType: Joi.string().required(),
   sowingDate: Joi.date().iso().required(),
 
   expectedFirstHarvestDate: Joi.date().iso().required(),
