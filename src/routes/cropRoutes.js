@@ -9,7 +9,8 @@ const cropRouter = express.Router();
 
 // cropRouter.post('/add/:farmerId', authenticateJWT, validateRequest(cropValidationSchema), addCrop);
 cropRouter.post('/add/:farmerId', validateRequest(cropValidationSchema), addCrop);
-cropRouter.patch('/update/:cropId' , authenticateJWT , updateCrop);
+// cropRouter.patch('/update/:cropId' , authenticateJWT , updateCrop);
+cropRouter.patch('/update/:cropId' , updateCrop);
 cropRouter.delete('/:cropId' , authenticateJWT , deleteCrop);
 cropRouter.get("/filter" , authenticateJWT , filterCrop);
 cropRouter.get('/by-farmer/:farmerId', getCropsByFarmerId);

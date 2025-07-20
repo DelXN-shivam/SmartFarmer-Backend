@@ -815,3 +815,12 @@
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-19T11:40:04.902Z"}
 {"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T10:56:05.993Z"}
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-07-20T10:56:07.857Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:31:54.985Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:31:58.687Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:32:05.411Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:32:06.586Z"}
+{"level":"error","message":"SyntaxError: Expected ',' or '}' after property value in JSON at position 85 (line 7 column 1)\n    at JSON.parse (<anonymous>)\n    at parse (S:\\Backends\\SmartFarmer-Backend\\node_modules\\body-parser\\lib\\types\\json.js:92:19)\n    at S:\\Backends\\SmartFarmer-Backend\\node_modules\\body-parser\\lib\\read.js:128:18\n    at AsyncResource.runInAsyncScope (node:async_hooks:214:14)\n    at invokeCallback (S:\\Backends\\SmartFarmer-Backend\\node_modules\\raw-body\\index.js:238:16)\n    at done (S:\\Backends\\SmartFarmer-Backend\\node_modules\\raw-body\\index.js:227:7)\n    at IncomingMessage.onEnd (S:\\Backends\\SmartFarmer-Backend\\node_modules\\raw-body\\index.js:287:7)\n    at IncomingMessage.emit (node:events:518:28)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)","timestamp":"2025-07-20T18:32:11.920Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:35:10.164Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:35:11.514Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:35:26.663Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:35:27.865Z"}
