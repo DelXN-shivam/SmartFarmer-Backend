@@ -18,7 +18,8 @@ farmerRouter.get('/', authenticateJWT, getFarmers); // specific
 // farmerRouter.patch('/update/:id', validateRequest(updateFarmerValidation), authenticateJWT, updateFarmer); // specific
 farmerRouter.patch('/update/:id', validateRequest(updateFarmerValidation), updateFarmer); // specific
 farmerRouter.delete('/:farmerId', authenticateJWT, deleteFarmer); // specific
-farmerRouter.get('/:id', authenticateJWT, getFarmer); // dynamic — must go last!
+// farmerRouter.get('/:id', authenticateJWT, getFarmer); // dynamic — must go last!
+farmerRouter.get('/:id', getFarmer); // dynamic — must go last!
 
 
 export default farmerRouter;
