@@ -14,7 +14,8 @@ cropRouter.patch('/update/:cropId' , updateCrop);
 cropRouter.delete('/:cropId' , authenticateJWT , deleteCrop);
 cropRouter.get("/filter" , authenticateJWT , filterCrop);
 cropRouter.get('/by-farmer/:farmerId', getCropsByFarmerId);
-cropRouter.get("/:id" , authenticateJWT , getCrop);
+// cropRouter.get("/:id" , authenticateJWT , getCrop);
+cropRouter.get("/:id", getCrop);
 cropRouter.post('/get-by-ids', getCropsByIds);
 
 export default cropRouter;
