@@ -15,7 +15,8 @@ farmerRouter.get('/contact'  , getFarmerByPhone);
 farmerRouter.get('/count' , authenticateJWT , countFarmer);
 farmerRouter.get('/filter', authenticateJWT, farmerFiletring); // specific
 farmerRouter.get('/', authenticateJWT, getFarmers); // specific
-farmerRouter.patch('/update/:id', validateRequest(updateFarmerValidation), authenticateJWT, updateFarmer); // specific
+// farmerRouter.patch('/update/:id', validateRequest(updateFarmerValidation), authenticateJWT, updateFarmer); // specific
+farmerRouter.patch('/update/:id', validateRequest(updateFarmerValidation), updateFarmer); // specific
 farmerRouter.delete('/:farmerId', authenticateJWT, deleteFarmer); // specific
 farmerRouter.get('/:id', authenticateJWT, getFarmer); // dynamic — must go last!
 
