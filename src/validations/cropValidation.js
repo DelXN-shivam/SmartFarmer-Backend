@@ -10,7 +10,6 @@ export const cropValidationSchema = Joi.object({
   }).required(),
 
   sowingDate: Joi.date().iso().required(),
-
   expectedFirstHarvestDate: Joi.date().iso().required(),
   expectedLastHarvestDate: Joi.date().iso().required(),
 
