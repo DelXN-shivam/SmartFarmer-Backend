@@ -11,15 +11,7 @@ export const verifierValidationSchema = Joi.object({
   taluka: Joi.string().optional(),
   district: Joi.string().optional(),
   state : Joi.string().optional(),
-  pincode: Joi.string().pattern(/^[1-9][0-9]{5}$/).optional(),
-
-  password: Joi.string().min(6).optional(),
-
-  location: Joi.object({
-    latitude: Joi.number().optional(),
-    longitude: Joi.number().optional()
-  }).optional(),
-  role : Joi.string().valid('farmer' , 'verifier')
+  pincode: Joi.string().pattern(/^[1-9][0-9]{5}$/).optional()
 });
 
 export const updateVerifierValidation = Joi.object({
