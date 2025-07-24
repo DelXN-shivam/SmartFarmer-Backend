@@ -135,7 +135,6 @@ export const filterCrop = async (req, res) => {
       district,
       taluka,
       village,
-      cropType,
     } = req.query;
 
     const query = {};
@@ -145,9 +144,6 @@ export const filterCrop = async (req, res) => {
     if (district) query.district = formatInput(district);
     if (taluka) query.taluka = formatInput(taluka);
     if (village) query.village = formatInput(village);
-
-    // Apply crop-specific filters
-    if (cropType) query.cropType = formatInput(cropType);
 
     const crops = await Crop.find(query);
 
@@ -250,6 +246,22 @@ export const getCropsByFarmerId = async (req, res) => {
     console.error(err);
     return res.status(500).json({
       message: "Error while fetching crops by farmerId",
+      error: err.message
+    });
+  }
+};
+
+export const getAllCrops = async (req, res) => {
+  try {
+    const crops = await Crop.find();
+    return res.status(200).json({
+      message: "All crops fetched successfully",
+      crops
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "Error while fetching all crops",
       error: err.message
     });
   }

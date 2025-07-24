@@ -799,4 +799,46 @@
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-18T05:49:45.307Z"}
 {"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-18T05:50:18.310Z"}
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-18T05:50:18.905Z"}
+<<<<<<< HEAD
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-18T06:46:28.251Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-18T06:46:28.799Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-18T08:32:44.076Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-18T08:32:44.504Z"}
+=======
 >>>>>>> ea2e42f703eb634e4d60d9ea17fd231f19cb6ccf
+>>>>>>> 5eb93a0f08bc2e81b6aa5654c7fd7a9ceaffbad8
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-18T08:36:21.423Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-07-18T08:36:21.760Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-18T08:39:16.678Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-07-18T08:39:17.016Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-19T11:40:03.377Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-19T11:40:04.902Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T10:56:05.993Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-07-20T10:56:07.857Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:31:54.985Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:31:58.687Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:32:05.411Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:32:06.586Z"}
+{"level":"error","message":"SyntaxError: Expected ',' or '}' after property value in JSON at position 85 (line 7 column 1)\n    at JSON.parse (<anonymous>)\n    at parse (S:\\Backends\\SmartFarmer-Backend\\node_modules\\body-parser\\lib\\types\\json.js:92:19)\n    at S:\\Backends\\SmartFarmer-Backend\\node_modules\\body-parser\\lib\\read.js:128:18\n    at AsyncResource.runInAsyncScope (node:async_hooks:214:14)\n    at invokeCallback (S:\\Backends\\SmartFarmer-Backend\\node_modules\\raw-body\\index.js:238:16)\n    at done (S:\\Backends\\SmartFarmer-Backend\\node_modules\\raw-body\\index.js:227:7)\n    at IncomingMessage.onEnd (S:\\Backends\\SmartFarmer-Backend\\node_modules\\raw-body\\index.js:287:7)\n    at IncomingMessage.emit (node:events:518:28)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)","timestamp":"2025-07-20T18:32:11.920Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:35:10.164Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:35:11.514Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:35:26.663Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:35:27.865Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:45:07.629Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:45:09.300Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-20T18:52:15.777Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-20T18:52:17.235Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-21T05:58:02.538Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-21T05:58:03.438Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-21T06:18:34.372Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-21T06:18:35.433Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-21T06:19:04.616Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-21T06:19:05.284Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-21T08:38:28.420Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-21T08:38:29.013Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-21T10:56:17.823Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-21T10:56:18.311Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-21T10:56:21.946Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-21T10:56:22.192Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-07-21T10:56:27.092Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-07-21T10:56:27.403Z"}

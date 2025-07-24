@@ -165,6 +165,7 @@ export const verifierLogin = async (req, res) => {
         name: existingVerifier.name,
         email: existingVerifier.email,
       },
+      existingVerifier: existingVerifier,
     });
   } catch (err) {
     console.error(err);
@@ -259,7 +260,6 @@ const formatInput = (value) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
-
 
 export const verifierFiletring = async (req, res) => {
   try {
