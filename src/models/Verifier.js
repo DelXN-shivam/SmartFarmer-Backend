@@ -38,23 +38,7 @@ const verifierSchema = new mongoose.Schema({
   } ,
   pincode: {
     type: String
-  },
-  password: { 
-    type: String, 
-    // required: true
-  },
-  location: {
-    latitude: {
-      type: Number
-    },
-    longitude: {
-      type: Number
-    }
-  },
-  role : {
-    type : String ,
-    enum : ['farmer' , 'verifier']
-  },
+  }
 } , {
   timestamps : true
 } );
