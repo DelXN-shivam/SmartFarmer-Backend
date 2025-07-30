@@ -34,7 +34,7 @@ export const addCrop = async (req, res) => {
     const matchingVerifiers = await Verifier.find(
       {
         district: farmer.district,
-        taluka: { $in: [farmer.taluka] }
+        allocatedTaluka: { $in: [farmer.taluka] }
       },
       { _id: 1 } // Only return the _id field
     );
@@ -45,7 +45,7 @@ export const addCrop = async (req, res) => {
     const updatedVerifiers = await Verifier.updateMany(
       {
         district: farmer.district,
-        taluka: { $in: [farmer.taluka] }
+        allocatedTaluka: { $in: [farmer.taluka] }
       },
       {
         $addToSet: {

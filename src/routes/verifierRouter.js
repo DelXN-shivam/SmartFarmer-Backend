@@ -17,7 +17,7 @@ verifierRouter.get('/' , authenticateJWT , getVerifiers);
 // verifierRouter.get('/:id' , authenticateJWT , getVerifier);
 verifierRouter.get('/:id' , getVerifier);
 // verifierRouter.patch('/update/:id' , validateRequest(updateVerifierValidation) , authenticateJWT , updateVerifier);
-verifierRouter.patch('/update/:id' , validateRequest(updateVerifierValidation) , updateVerifier);
+verifierRouter.patch('/update/:id' , updateVerifier);
 verifierRouter.post('/login' , validateRequest(loginVerifierValidation) , verifierLogin)
 verifierRouter.delete('/delete/:id' , authenticateJWT , deleteVerifier);
 
