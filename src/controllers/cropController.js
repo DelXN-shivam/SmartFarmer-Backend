@@ -2,6 +2,8 @@
 import mongoose from 'mongoose';
 import Crop from '../models/Crop.js';
 import Farmer from '../models/Farmer.js';
+import Verifier from '../models/Verifier.js';
+
 export const addCrop = async (req, res) => {
   try {
     const { farmerId } = req.params;
@@ -11,6 +13,7 @@ export const addCrop = async (req, res) => {
       })
     }
 
+    
     const farmer = await Farmer.findById(farmerId);
     if (!farmer) {
       return res.status(409).json({
@@ -27,22 +30,36 @@ export const addCrop = async (req, res) => {
       $push: { crops: newCrop._id }
     });
 
-    await Verifier.updateMany(
+    // Find verifiers that match the criteria and get their IDs
+    const matchingVerifiers = await Verifier.find(
+      {
+        district: farmer.district,
+        taluka: { $in: [farmer.taluka] }
+      },
+      { _id: 1 } // Only return the _id field
+    );
+
+    const verifierIds = matchingVerifiers.map(verifier => verifier._id);
+
+    // Update the verifiers
+    const updatedVerifiers = await Verifier.updateMany(
       {
         district: farmer.district,
         taluka: { $in: [farmer.taluka] }
       },
       {
         $addToSet: {
-          farmerIds: farmer._id,
-          cropIds: newCrop._id
+          farmerId: farmer._id,
+          cropId: newCrop._id
         }
       }
     );
-    
+
     return res.status(201).json({
       message: "Crop added and linked to farmer successfully",
-      data: newCrop
+      data: newCrop,
+      updatedVerifierIds: verifierIds,
+      verifierDetails: updatedVerifiers
     });
   } catch (err) {
     console.error(err);
@@ -52,6 +69,7 @@ export const addCrop = async (req, res) => {
     });
   }
 };
+
 
 export const updateCrop = async (req, res) => {
   try {

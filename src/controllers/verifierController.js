@@ -25,7 +25,6 @@ export const verifierRegister = async (req, res, next) => {
   catch (err) {
     logger.error(err);
     console.error(err)
-    next(err);
     return res.status(500).json({
       error: "Error while verifier register", err
     })

@@ -7,7 +7,8 @@ const verifierSchema = new mongoose.Schema({
     },
   email: {
     type: String,
-    unique: true
+    unique: true,
+    lowercase : true
   },
   contact: {
     type: String,
@@ -22,19 +23,23 @@ const verifierSchema = new mongoose.Schema({
     type : Number
   },
   village: {
-    type: String
+    type: String,
+    lowercase : true
   },
   landMark: {
     type: String
   },
   taluka: {
-    type: [String]
+    type: [String],
+    lowercase : true
   },
   district: {
-    type: String
+    type: String,
+    lowercase : true
   },
   state : {
-    type  : String
+    type  : String,
+    lowercase : true
   } ,
   pincode: {
     type: String
@@ -42,6 +47,7 @@ const verifierSchema = new mongoose.Schema({
   farmerId  : [
     {
       type : mongoose.Schema.Types.ObjectId,
+      //unique : true,
       ref : 'Farmer'
     }
   ] , 

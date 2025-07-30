@@ -26,6 +26,10 @@ const cropSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Farmer',
     required: true
+  },
+  address : {
+    type : String,
+    default : ""
   }
 
 }, {

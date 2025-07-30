@@ -8,10 +8,12 @@ export const verifierValidationSchema = Joi.object({
   aadhaarNumber: Joi.string().length(12).pattern(/^[0-9]+$/).optional(),
   village: Joi.string().optional(),
   landMark: Joi.string().optional(),
-  taluka: Joi.string().optional(),
+  taluka: Joi.array().items(Joi.string()),
   district: Joi.string().optional(),
   state : Joi.string().optional(),
-  pincode: Joi.string().pattern(/^[1-9][0-9]{5}$/).optional()
+  pincode: Joi.string().pattern(/^[1-9][0-9]{5}$/).optional(),
+  farmerId: Joi.array().items(Joi.string()).default([]),
+  cropId: Joi.array().items(Joi.string()).default([]),
 });
 
 export const updateVerifierValidation = Joi.object({
@@ -22,7 +24,7 @@ export const updateVerifierValidation = Joi.object({
   aadhaarNumber: Joi.string().length(12).pattern(/^[0-9]+$/),
   village: Joi.string(),
   landMark: Joi.string(),
-  taluka: Joi.string(),
+  taluka: Joi.array().items(Joi.string()),
   district: Joi.string(),
   state: Joi.string(),
   pincode: Joi.string().pattern(/^[1-9][0-9]{5}$/),
