@@ -27,6 +27,19 @@ export const addCrop = async (req, res) => {
       $push: { crops: newCrop._id }
     });
 
+    await Verifier.updateMany(
+      {
+        district: farmer.district,
+        taluka: { $in: [farmer.taluka] }
+      },
+      {
+        $addToSet: {
+          farmerIds: farmer._id,
+          cropIds: newCrop._id
+        }
+      }
+    );
+    
     return res.status(201).json({
       message: "Crop added and linked to farmer successfully",
       data: newCrop

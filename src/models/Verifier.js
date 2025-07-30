@@ -28,7 +28,7 @@ const verifierSchema = new mongoose.Schema({
     type: String
   },
   taluka: {
-    type: String
+    type: [String]
   },
   district: {
     type: String
@@ -38,7 +38,19 @@ const verifierSchema = new mongoose.Schema({
   } ,
   pincode: {
     type: String
-  }
+  } , 
+  farmerId  : [
+    {
+      type : mongoose.Schema.Types.ObjectId,
+      ref : 'Farmer'
+    }
+  ] , 
+  cropId  : [
+    {
+      type : mongoose.Schema.Types.ObjectId,
+      ref : 'Crop'
+    }
+  ]
 } , {
   timestamps : true
 } );

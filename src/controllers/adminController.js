@@ -51,6 +51,7 @@ export const adminLogin = async (req, res) => {
                 error: "please send email and password"
             })
         }
+        
         const existingAdmin = await Admin.findOne({ email });
         if (!existingAdmin) {
             return res.status(404).json({
