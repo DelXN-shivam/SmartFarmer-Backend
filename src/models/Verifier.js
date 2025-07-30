@@ -29,7 +29,11 @@ const verifierSchema = new mongoose.Schema({
   landMark: {
     type: String
   },
-  taluka: {
+  taluka : {
+    type : String,
+    lowercase : true
+  } ,
+  allocatedTaluka: {
     type: [String],
     lowercase : true
   },
