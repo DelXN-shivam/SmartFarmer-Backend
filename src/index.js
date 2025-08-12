@@ -5,12 +5,14 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import cookieParser from "cookie-parser";
 
 import './cron/expiredCrop.js'; 
 import connectDB from './config/database.js';
 import logger from './config/logger.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import rootRouter from './routes/index.js';
+import authRouter from './routes/authRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -26,7 +28,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true, // if you're sending cookies or auth headers
 }));
-
+app.use(cookieParser());
 app.use(helmet());
 app.use(compression());
 app.use(morgan('combined'));
@@ -45,6 +47,7 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+app.use('/api/auth' , authRouter)
 app.use('/api', rootRouter);
 // Error Handling Middleware
 app.use(notFoundHandler);

@@ -3,22 +3,19 @@ import mongoose from 'mongoose';
 import Crop from '../models/Crop.js';
 import Farmer from '../models/Farmer.js';
 import Verifier from '../models/Verifier.js';
+import TalukaOfficer from "../models/TalukaOfficer.js"
+
 
 export const addCrop = async (req, res) => {
   try {
     const { farmerId } = req.params;
-    if (farmerId.length == 0) {
-      return res.json({
-        message: "Please provide valid FarmerId"
-      })
+    if (!farmerId) {
+      return res.json({ message: "Please provide valid FarmerId" });
     }
 
-    
     const farmer = await Farmer.findById(farmerId);
     if (!farmer) {
-      return res.status(409).json({
-        error: "Farmer with given id does not exist"
-      })
+      return res.status(409).json({ error: "Farmer with given id does not exist" });
     }
 
     const cropData = req.body;
@@ -30,36 +27,25 @@ export const addCrop = async (req, res) => {
       $push: { crops: newCrop._id }
     });
 
-    // Find verifiers that match the criteria and get their IDs
-    const matchingVerifiers = await Verifier.find(
-      {
-        district: farmer.district,
-        allocatedTaluka: { $in: [farmer.taluka] }
-      },
-      { _id: 1 } // Only return the _id field
+    // Find taluka officers in the same taluka
+    const matchingTalukaOfficers = await TalukaOfficer.find(
+      { taluka: farmer.taluka },
+      { _id: 1 }
     );
 
-    const verifierIds = matchingVerifiers.map(verifier => verifier._id);
+    const talukaOfficerIds = matchingTalukaOfficers.map(officer => officer._id);
 
-    // Update the verifiers
-    const updatedVerifiers = await Verifier.updateMany(
-      {
-        district: farmer.district,
-        allocatedTaluka: { $in: [farmer.taluka] }
-      },
-      {
-        $addToSet: {
-          farmerId: farmer._id,
-          cropId: newCrop._id
-        }
-      }
+    // Update the matching taluka officers with the crop ID
+    const updatedTalukaOfficers = await TalukaOfficer.updateMany(
+      { taluka: farmer.taluka },
+      { $addToSet: { cropId: newCrop._id } } // fixed field name
     );
 
     return res.status(201).json({
       message: "Crop added and linked to farmer successfully",
       data: newCrop,
-      updatedVerifierIds: verifierIds,
-      verifierDetails: updatedVerifiers
+      updatedTalukaOfficerIds: talukaOfficerIds,
+      talukaOfficerDetails: updatedTalukaOfficers
     });
   } catch (err) {
     console.error(err);
@@ -69,6 +55,7 @@ export const addCrop = async (req, res) => {
     });
   }
 };
+
 
 
 export const updateCrop = async (req, res) => {
