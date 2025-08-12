@@ -34,22 +34,20 @@
 
 import express from "express";
 import { loginDistrictOfficer } from "../controllers/districtOfficerController.js";
-import { refreshTokenHandler } from "../controllers/authController.js";
+import { login, refreshTokenHandler } from "../controllers/authController.js";
 import { loginSuperAdmin, registerSuperAdmin } from "../controllers/superAdminController.js";
 import { loginTaluka, registerTaluka } from "../controllers/talukaOfficerController.js";
 const authRouter = express.Router();
 
-// Auth endpoints
-authRouter.post("/district-officer/login", loginDistrictOfficer);  //login district - officer 
+// Auth endpoints 
 
 authRouter.post("/super-admin/register" , registerSuperAdmin)
 //login super admin
-authRouter.post("/super-admin/login" , loginSuperAdmin)
 
+authRouter.post("/login" , login);
 
 authRouter.post("/taluka-officer/register" , registerTaluka);
 
-authRouter.post("/taluka-officer/login" , loginTaluka)
 authRouter.get("/refresh", refreshTokenHandler); // refresh access token
 // authRouter.post("/logout", logout); // clear cookie
 

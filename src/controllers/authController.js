@@ -1,4 +1,54 @@
 import jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt';
+import { generateTokens } from '../utils/generateToken.js'; // your token generation function
+import {DistrictOfficer} from '../models/DistrictOfficer.js';
+import TalukaOfficer from '../models/TalukaOfficer.js';
+import {SuperAdmin} from '../models/SuperAdmin.js';
+
+const userModels = [DistrictOfficer, TalukaOfficer, SuperAdmin];
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    let user = null;
+    // Find user in all models
+    for (const Model of userModels) {
+      user = await Model.findOne({ email });
+      if (user) break;
+    }
+
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Generate tokens (pass user ID & role)
+    const { accessToken, refreshToken } = generateTokens(user._id, user.role);
+
+    // Store refresh token in cookie
+    res.cookie('jwt', refreshToken, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: false
+    });
+
+    return res.json({
+      message: 'Login successful',
+      accessToken,
+      role: user.role
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
 
 export const refreshTokenHandler = (req, res) => {
     const cookies = req.cookies;
