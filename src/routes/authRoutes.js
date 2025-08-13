@@ -37,9 +37,16 @@ import { loginDistrictOfficer } from "../controllers/districtOfficerController.j
 import { login, refreshTokenHandler } from "../controllers/authController.js";
 import { loginSuperAdmin, registerSuperAdmin } from "../controllers/superAdminController.js";
 import { loginTaluka, registerTaluka } from "../controllers/talukaOfficerController.js";
+import { verifyCookieToken } from '../middleware/verifyCookie.js';
+
 const authRouter = express.Router();
 
-// Auth endpoints 
+authRouter.get("/me", verifyCookieToken, (req, res) => {
+  res.json({
+    user: req.user, // e.g. { id, role, email }
+  });
+});
+
 
 authRouter.post("/super-admin/register" , registerSuperAdmin)
 //login super admin

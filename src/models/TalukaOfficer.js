@@ -63,7 +63,11 @@ const talukaSchema = new mongoose.Schema({
       type : mongoose.Schema.Types.ObjectId,
       ref : 'Crop'
     }
-  ]
+  ] , 
+  role : {
+    type : String,
+    default : "talukaOfficer"
+  }
 } , {
   timestamps : true
 } );
