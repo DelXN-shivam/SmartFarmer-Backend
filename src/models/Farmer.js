@@ -11,12 +11,14 @@ const farmerSchema = new mongoose.Schema({
   // },
   contact: {
     type: String,
-    // required: true,
-    unique: true
+    required: true,
+    unique: true,
+    
   },
   aadhaarNumber: {
     type: String,
-    unique: true
+    unique: true,
+    required: true,
   },
   age : {
     type : Number

@@ -146,7 +146,7 @@ export const farmerLogin = async (req, res) => {
         error: "No farmer found"
       })
     }
-    const confirmPassword = bcrypt.compare(password, existingFarmer.password)
+    const confirmPassword = await bcrypt.compare(password, existingFarmer.password)
     if (!confirmPassword) {
       return res.status(409).json({
         message: "Password does not match"
@@ -180,35 +180,36 @@ export const farmerLogin = async (req, res) => {
   }
 }
 
-export const getFarmerByPhone = async (req , res) => {
-  const {contact} = req.query;
-  if(!contact){
+export const getFarmerByPhone = async (req, res) => {
+  const { contact } = req.query;
+  if (!contact) {
     return res.status(409).json({
-      message : "Please provide contact"
+      message: "Please provide contact"
     })
   }
 
-  const farmer = await Farmer.findOne({contact : contact});
-  if(!farmer){
+  const farmer = await Farmer.findOne({ contact: contact });
+  if (!farmer) {
     return res.status(409).json({
       success: false,
-      message : "Mobile Number not found"
+      message: "Mobile Number not found"
     })
   }
   const token = generateToken({ id: farmer._id });
-    try {
-      if (!token) {
+  try {
+    if (!token) {
       return res.status(404).json({
         error: "error while generating token"
       })
     }
 
     return res.status(200).json({
+      success: true,
       message: 'Farmer Fetched successfully',
-      token,
+      token:token,
       farmer: farmer
     });
-    } catch (err) {
+  } catch (err) {
     console.error(err);
     logger?.error?.(err);
 
@@ -265,7 +266,7 @@ const formatInput = (value) => {
 
 export const farmerFiletring = async (req, res) => {
   try {
-    const {state , village, taluka, district } = req.query
+    const { state, village, taluka, district } = req.query
 
     const query = {};
 
@@ -286,33 +287,33 @@ export const farmerFiletring = async (req, res) => {
       message: "farmers found",
       farmers
     })
-  } catch (err){
+  } catch (err) {
     console.error(err);
     return res.status(500).json({
-      error : "Error while filtering farmers",
-      message : err.message
+      error: "Error while filtering farmers",
+      message: err.message
     })
   }
 }
 
-export const countFarmer = async (req , res ) => {
+export const countFarmer = async (req, res) => {
   try {
     const count = await Farmer.countDocuments();
 
-  if(!count){
-    return res.status(409).json({
-      message : "Could not calculate count for farmers"
-    })
-  }
+    if (!count) {
+      return res.status(409).json({
+        message: "Could not calculate count for farmers"
+      })
+    }
 
-  return res.status(200).json({
-    message : "Count caluclated for farmer",
-    count 
-  })
-  } catch(err){
+    return res.status(200).json({
+      message: "Count caluclated for farmer",
+      count
+    })
+  } catch (err) {
     console.error(err);
     return res.status(500).json({
-      message : "Error while calculating counr for farmers"
+      message: "Error while calculating counr for farmers"
     })
   }
 }
