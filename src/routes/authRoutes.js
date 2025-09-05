@@ -38,6 +38,7 @@ import { login, refreshTokenHandler } from "../controllers/authController.js";
 import { loginSuperAdmin, registerSuperAdmin } from "../controllers/superAdminController.js";
 import { loginTaluka, registerTaluka } from "../controllers/talukaOfficerController.js";
 import { verifyCookieToken } from '../middleware/verifyCookie.js';
+import { adminLogin, adminRegister } from "../controllers/adminController.js"; // ADD THIS
 
 const authRouter = express.Router();
 
@@ -46,6 +47,11 @@ authRouter.get("/me", verifyCookieToken, (req, res) => {
     user: req.user, // e.g. { id, role, email }
   });
 });
+
+// ADD ADMIN ROUTES
+authRouter.post("/admin/register", adminRegister);
+authRouter.post("/admin/login", adminLogin);
+
 
 
 authRouter.post("/super-admin/register" , registerSuperAdmin)
