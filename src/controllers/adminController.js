@@ -75,11 +75,7 @@ export const adminLogin = async (req, res) => {
         return res.status(200).json({
             message: 'Login successful',
             token,
-            admin: {
-                id: existingAdmin._id,
-                name: existingAdmin.name,
-                email: existingAdmin.email,
-            },
+            data: existingAdmin
         });
     } catch (err) {
         console.error(err);
