@@ -24,9 +24,10 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://smart-farmer-backend.vercel.app'], // allow local dev frontend
+  origin: ['*', 'http://localhost:1000', 'https://smart-farmer-backend.vercel.app'], // allow local dev frontend
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-  credentials: true, // if you're sending cookies or auth headers
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(cookieParser());
 app.use(helmet());
