@@ -1211,3 +1211,5 @@
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-09-05T07:37:47.092Z"}
 {"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-09-05T07:38:22.454Z"}
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-09-05T07:38:22.741Z"}
+{"level":"info","message":"Server running in development mode on port 1000","timestamp":"2025-09-05T07:38:52.245Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-05T07:38:52.542Z"}

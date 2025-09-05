@@ -22,9 +22,23 @@ connectDB();
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:3000", // local frontend
+  "http://localhost:1000", // your local backend (if frontend calls it directly)
+  "https://smart-farmer-admin.vercel.app" // deployed frontend
+];
+
 // Middleware
 app.use(cors({
-  origin: ['*', 'http://localhost:1000', 'https://smart-farmer-backend.vercel.app'], // allow local dev frontend
+  // origin: ['*', 'http://localhost:1000', 'https://smart-farmer-backend.vercel.app'], // allow local dev frontend
+  origin: function (origin, callback) {
+      // allow requests with no origin (like Postman or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-type','Authorization','Origin','Access-Control-Allow-Origin','Accept','Options','X-Requested-With']
