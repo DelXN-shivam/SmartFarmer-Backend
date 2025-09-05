@@ -29,6 +29,7 @@ const allowedOrigins = [
 ];
 
 // Middleware
+
 app.use(cors({
   // origin: ['*', 'http://localhost:1000', 'https://smart-farmer-backend.vercel.app'], // allow local dev frontend
   origin: function (origin, callback) {
