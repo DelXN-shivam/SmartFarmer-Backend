@@ -42,7 +42,7 @@ app.use(cors({
     },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
-  allowedHeaders: ['Content-type','Authorization','Origin','Access-Control-Allow-Origin','Accept','Options','X-Requested-With']
+  allowedHeaders: ['Content-Type','Authorization','Origin','Access-Control-Allow-Origin','Accept','Options','X-Requested-With']
 }));
 app.use(cookieParser());
 app.use(helmet());
