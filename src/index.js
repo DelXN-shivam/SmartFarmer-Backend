@@ -23,6 +23,7 @@ connectDB();
 const app = express();
 
 const allowedOrigins = [
+  "https://smart-farmer-backend.vercel.app", // deployed backend
   "http://localhost:3000", // local frontend
   "http://localhost:1000", // your local backend (if frontend calls it directly)
   "https://smart-farmer-admin.vercel.app" // deployed frontend
