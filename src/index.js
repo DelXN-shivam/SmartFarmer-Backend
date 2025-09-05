@@ -27,7 +27,7 @@ app.use(cors({
   origin: ['*', 'http://localhost:1000', 'https://smart-farmer-backend.vercel.app'], // allow local dev frontend
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-type','Authorization','Origin','Access-Control-Allow-Origin','Accept','Options','X-Requested-With']
 }));
 app.use(cookieParser());
 app.use(helmet());
