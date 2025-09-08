@@ -299,7 +299,9 @@ export const verifierFiletring = async (req, res) => {
 
 
 export const getVerifierByPhone = async (req , res) => {
+  
   const {contact} = req.query;
+
   if(!contact){
     return res.status(409).json({
       message : "Please provide contact"
