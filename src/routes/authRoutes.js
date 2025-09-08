@@ -52,8 +52,6 @@ authRouter.get("/me", verifyCookieToken, (req, res) => {
 authRouter.post("/admin/register", adminRegister);
 authRouter.post("/admin/login", adminLogin);
 
-
-
 authRouter.post("/super-admin/register" , registerSuperAdmin)
 //login super admin
 

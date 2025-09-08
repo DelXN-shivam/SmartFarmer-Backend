@@ -32,8 +32,8 @@ app.use(cors({
 
       const allowedOrigins = [
       "https://smart-farmer-backend.vercel.app",
-      "http://localhost:3000",
       "http://localhost:1000", 
+      "http://localhost:3000", 
       "https://smart-farmer-admin.vercel.app"
     ];
       if (!origin || allowedOrigins.includes(origin)) {

@@ -27,3 +27,4 @@ export const generateToken = (payload) => {
     expiresIn: process.env.JWT_EXPIRATION 
   });
 };
+  

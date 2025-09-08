@@ -11,7 +11,7 @@ verifierRouter.post('/register' , validateRequest(verifierValidationSchema) , ve
 verifierRouter.post('/add' , validateRequest(verifierValidationSchema) , verifierRegister);
 verifierRouter.get('/unverified' ,authenticateJWT , getUnverifiedVerifiers) 
 verifierRouter.get('/filter', authenticateJWT , verifierFiletring); 
-verifierRouter.get('/count' , authenticateJWT , countVerifier);
+verifierRouter.get('/count', countVerifier);
 verifierRouter.post('/contact' , getVerifierByPhone)
 verifierRouter.get('/' , authenticateJWT , getVerifiers);
 // verifierRouter.get('/:id' , authenticateJWT , getVerifier);
