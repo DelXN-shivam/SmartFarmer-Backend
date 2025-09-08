@@ -7,4 +7,6 @@ const adminRouter = express.Router();
 
 adminRouter.post('/register' , validateRequest(adminRegisterSchema) , adminRegister)
 adminRouter.post('/login' , validateRequest(loginAdminValidation) , adminLogin)
+
+
 export default adminRouter;

@@ -12,7 +12,8 @@ farmerRouter.post('/register/contact', validateRequest(farmerContactRegisterSche
 farmerRouter.post('/login', validateRequest(loginFarmerValidation), farmerLogin); // specific
 farmerRouter.get('/contact'  , getFarmerByPhone);
 // Protected routes
-farmerRouter.get('/count' , authenticateJWT , countFarmer);
+// farmerRouter.get('/count' , authenticateJWT , countFarmer);
+farmerRouter.get('/count' , countFarmer);
 farmerRouter.get('/filter', authenticateJWT, farmerFiletring); // specific
 farmerRouter.get('/', authenticateJWT, getFarmers); // specific
 // farmerRouter.patch('/update/:id', validateRequest(updateFarmerValidation), authenticateJWT, updateFarmer); // specific

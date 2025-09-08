@@ -17,7 +17,16 @@ const cropSchema = new mongoose.Schema({
   sowingDate: { type: Date },
   expectedFirstHarvestDate: { type: Date },
   expectedLastHarvestDate: { type: Date },
-  expectedYield: { type: Number },
+  expectedYield: { 
+   value : {
+     type: Number
+   } , 
+  unit : {
+    type : String,
+    enum : ['kg' , 'carat' , 'quintal' , 'ton']
+  }
+    
+  },
   previousCrop: { type: String },
   latitude: { type: Number },
   longitude: { type: Number },
@@ -26,7 +35,12 @@ const cropSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Farmer',
     required: true
-  }
+  },
+  address: {
+    type: String,
+    default: ""
+  },
+  applicationStatus: { type: String, enum: ['pending', 'verified', 'rejected'], default: 'pending' },
 
 }, {
   timestamps: true

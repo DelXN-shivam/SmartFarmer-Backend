@@ -13,7 +13,11 @@ export const cropValidationSchema = Joi.object({
   expectedFirstHarvestDate: Joi.date().iso().required(),
   expectedLastHarvestDate: Joi.date().iso().required(),
 
-  expectedYield: Joi.number().positive().optional(),
+  expectedYield: Joi.object({
+    value: Joi.number().positive(),
+    unit: Joi.string().valid('kg' , 'carat' , 'quintal' , 'ton')
+  }),
+
   previousCrop: Joi.string().optional(),
 
   latitude: Joi.number().min(-90).max(90).required(),

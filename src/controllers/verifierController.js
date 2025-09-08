@@ -13,9 +13,6 @@ export const verifierRegister = async (req, res, next) => {
         message: "Verifier already registered"
       })
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(body.password, salt);
-    body.password = hashedPassword
     const verifier = await Verifier.create(body);
     const token = generateToken({ id: verifier._id });
 
@@ -28,7 +25,6 @@ export const verifierRegister = async (req, res, next) => {
   catch (err) {
     logger.error(err);
     console.error(err)
-    next(err);
     return res.status(500).json({
       error: "Error while verifier register", err
     })

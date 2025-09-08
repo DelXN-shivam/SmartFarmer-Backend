@@ -5,12 +5,14 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import cookieParser from "cookie-parser";
 
 import './cron/expiredCrop.js'; 
 import connectDB from './config/database.js';
 import logger from './config/logger.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import rootRouter from './routes/index.js';
+import authRouter from './routes/authRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -20,13 +22,53 @@ connectDB();
 
 const app = express();
 
+
 // Middleware
+
 app.use(cors({
-  origin: ['http://localhost:3000'], // allow local dev frontend
+  // origin: ['*', 'http://localhost:1000', 'https://smart-farmer-backend.vercel.app'], // allow local dev frontend
+  origin: function (origin, callback) {
+      // allow requests with no origin (like Postman or curl)
+
+      const allowedOrigins = [
+      "https://smart-farmer-backend.vercel.app",
+      "http://localhost:1000", 
+      "http://localhost:3000", 
+      "https://smart-farmer-admin.vercel.app"
+    ];
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-  credentials: true, // if you're sending cookies or auth headers
+  credentials: true,
+  allowedHeaders: ['Content-Type','Authorization','Origin','Access-Control-Allow-Origin','Accept','Options','X-Requested-With']
 }));
 
+// Force CORS headers for browser preflight + main requests
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    "http://localhost:1000",
+    "https://smart-farmer-admin.vercel.app"
+  ];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+app.use(cookieParser());
 app.use(helmet());
 app.use(compression());
 app.use(morgan('combined'));
@@ -45,6 +87,7 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+app.use('/api/auth' , authRouter)
 app.use('/api', rootRouter);
 // Error Handling Middleware
 app.use(notFoundHandler);

@@ -47,38 +47,46 @@ export const adminLogin = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(404).json({
+            return res.status(400).json({
                 error: "please send email and password"
             })
         }
+        
         const existingAdmin = await Admin.findOne({ email });
         if (!existingAdmin) {
-            return res.status(404).json({
+            return res.status(401).json({
                 error: "No admin found"
             })
         }
-        const confirmPassword = bcrypt.compare(password, existingAdmin.password)
+        const confirmPassword = await bcrypt.compare(password, existingAdmin.password)
         if (!confirmPassword) {
-            return res.status(404).json({
+            return res.status(401).json({
                 message: "Password does not match"
             })
         }
 
-        const token = generateToken({ id: existingAdmin._id });
+        const token = generateToken({ id: existingAdmin._id,
+            role: 'admin', email: existingAdmin.email
+         });
         if (!token) {
             return res.status(404).json({
                 error: "error while generating token"
             })
         }
 
+        // Set token in HTTP-only cookie for browser clients
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        });
+
+
         return res.status(200).json({
             message: 'Login successful',
-            token,
-            admin: {
-                id: existingAdmin._id,
-                name: existingAdmin.name,
-                email: existingAdmin.email,
-            },
+            token, // Return in body for mobile apps
+            data: existingAdmin
         });
     } catch (err) {
         console.error(err);

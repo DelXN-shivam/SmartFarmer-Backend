@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
 
-const verifierSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      //  required: true
+const talukaSchema = new mongoose.Schema({
+  name: {
+    type: String, 
+    //  required: true
     },
   email: {
     type: String,
@@ -16,6 +15,9 @@ const verifierSchema = new mongoose.Schema(
     // required: true,
     unique: true
   },
+  password : {
+    type : String
+  } , 
   aadhaarNumber: { 
     type: String ,
     unique : true
@@ -61,10 +63,14 @@ const verifierSchema = new mongoose.Schema(
       type : mongoose.Schema.Types.ObjectId,
       ref : 'Crop'
     }
-  ]
+  ] , 
+  role : {
+    type : String,
+    default : "talukaOfficer"
+  }
 } , {
   timestamps : true
 } );
 
-const Verifier = mongoose.models.Verifier || mongoose.model("Verifier", verifierSchema);
-export default Verifier;
+const Taluka = mongoose.model("TalukaOfficer", talukaSchema);
+export default Taluka;

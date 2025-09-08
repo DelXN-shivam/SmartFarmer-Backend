@@ -7,16 +7,17 @@ import { countVerifier, deleteVerifier, getUnverifiedVerifiers, getVerifier, get
 const verifierRouter = express.Router();
 
 verifierRouter.post('/register' , validateRequest(verifierValidationSchema) , verifierRegister);
-verifierRouter.post('/add' , authenticateJWT , validateRequest(verifierValidationSchema) , verifierRegister);
+// verifierRouter.post('/add' , authenticateJWT , validateRequest(verifierValidationSchema) , verifierRegister);
+verifierRouter.post('/add' , validateRequest(verifierValidationSchema) , verifierRegister);
 verifierRouter.get('/unverified' ,authenticateJWT , getUnverifiedVerifiers) 
 verifierRouter.get('/filter', authenticateJWT , verifierFiletring); 
-verifierRouter.get('/count' , authenticateJWT , countVerifier);
+verifierRouter.get('/count', countVerifier);
 verifierRouter.post('/contact' , getVerifierByPhone)
 verifierRouter.get('/' , authenticateJWT , getVerifiers);
 // verifierRouter.get('/:id' , authenticateJWT , getVerifier);
 verifierRouter.get('/:id' , getVerifier);
 // verifierRouter.patch('/update/:id' , validateRequest(updateVerifierValidation) , authenticateJWT , updateVerifier);
-verifierRouter.patch('/update/:id' , validateRequest(updateVerifierValidation) , updateVerifier);
+verifierRouter.patch('/update/:id' , updateVerifier);
 verifierRouter.post('/login' , validateRequest(loginVerifierValidation) , verifierLogin)
 verifierRouter.delete('/delete/:id' , authenticateJWT , deleteVerifier);
 

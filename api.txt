@@ -1,0 +1,33 @@
+
+1. Farmer-Registration
+
+POST http://localhost:1000/api/farmer/register
+
+samplebody :
+{
+  "name": "Shubham-Farmer",
+  "email": "shubham-farmer@gmail.com",
+  "password": "test@1234",
+  "role": "farmer"
+}
+
+Headers:
+Content-Type : application/json
+
+Response:
+{
+    "message": "New Farmer Created",
+    "farmer": {
+        "name": "Shubham-Farmer",
+        "isVerified": false,
+        "submittedDocuments": [],
+        "applicationStatus": "pending",
+        "crops": [],
+        "_id": "68ba71d5a6efd3706ed66513",
+        "createdAt": "2025-09-05T05:15:01.077Z",
+        "updatedAt": "2025-09-05T05:15:01.077Z",
+        "__v": 0
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YmE3MWQ1YTZlZmQzNzA2ZWQ2NjUxMyIsImlhdCI6MTc1NzA0OTMwMSwiZXhwIjoxNzU3NjU0MTAxfQ.MZzPBCsyRO4NCAVrIJozA-oU4bMS4TeVavRZLs-v-Lc"
+}
+
