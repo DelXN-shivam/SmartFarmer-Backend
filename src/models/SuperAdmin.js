@@ -5,26 +5,32 @@ const superAdminSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
     },
     role: {
       type: String,
       default: "superAdmin",
-      enum: ["superAdmin"] // fixed role
-    }
+    },
   },
   { timestamps: true }
 );
 
-export const SuperAdmin = mongoose.model("SuperAdmin", superAdminSchema);
+const SuperAdmin =
+  mongoose.models.SuperAdmin || mongoose.model("SuperAdmin", superAdminSchema);
+
+export default SuperAdmin;

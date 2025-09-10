@@ -1,12 +1,12 @@
 
 import bcrypt from 'bcrypt';
-import { SuperAdmin } from "../models/SuperAdmin.js";
-import { generateTokens } from '../utils/generateToken.js';
+import SuperAdmin from "../models/SuperAdmin.js";
+import { generateTokens } from "../utils/generateToken.js";
 
 // REGISTER Super Admin
 export const registerSuperAdmin = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, phone, password } = req.body;
 
     // Check if email exists
     const existing = await SuperAdmin.findOne({ email });
@@ -19,10 +19,20 @@ export const registerSuperAdmin = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create Super Admin
-    const superAdmin = new SuperAdmin({ name, email, password: hashedPassword });
+    const superAdmin = new SuperAdmin({
+      name,
+      email,
+      phone,
+      password: hashedPassword,
+    });
     await superAdmin.save();
 
-    res.status(201).json({ message: "Super Admin registered successfully" });
+    res
+      .status(201)
+      .json({
+        message: "Super Admin registered successfully",
+        data: superAdmin,
+      });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error", error: err.message });
@@ -46,19 +56,23 @@ export const loginSuperAdmin = async (req, res) => {
     }
 
     // Generate tokens
-    const { accessToken, refreshToken } = generateTokens(superAdmin._id, superAdmin.role);
+    const { accessToken, refreshToken } = generateTokens(
+      superAdmin._id,
+      superAdmin.role
+    );
 
     // Store refresh token in HTTP-only cookie
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     res.json({
       message: "Login successful",
-      accessToken
+      accessToken,
+      superAdmin: superAdmin,
     });
   } catch (err) {
     console.error(err);

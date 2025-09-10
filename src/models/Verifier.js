@@ -67,4 +67,5 @@ const verifierSchema = new mongoose.Schema(
 } );
 
 const Verifier = mongoose.models.Verifier || mongoose.model("Verifier", verifierSchema);
+
 export default Verifier;

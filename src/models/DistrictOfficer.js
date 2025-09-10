@@ -1,26 +1,78 @@
-
 import mongoose, { mongo } from "mongoose";
 
-const districtOfficerSchema = mongoose.Schema({
+const districtOfficerSchema = mongoose.Schema(
+  {
     name: {
-        type: String
+      type: String,
+      //  required: true
     },
     email: {
-        type: String
-    },
-    password: {
-        type: String
-    },
-    age: {
-        type: Number
+      type: String,
+      unique: true,
+      lowercase: true,
     },
     contact: {
-        type: Number
+      type: String,
+      // required: true,
+      unique: true,
     },
-    role: {
-        type: String,
-        default: "districtOfficer"
-    }
-})
+    password: {
+      type: String,
+    },
+    aadhaarNumber: {
+      type: String,
+      unique: true,
+    },
+    age: {
+      type: Number,
+    },
+    village: {
+      type: String,
+      lowercase: true,
+    },
+    landMark: {
+      type: String,
+    },
+    taluka: {
+      type: String,
+      lowercase: true,
+    },
+    allocatedTaluka: {
+      type: [String],
+      lowercase: true,
+    },
+    district: {
+      type: String,
+      lowercase: true,
+    },
+    state: {
+      type: String,
+      lowercase: true,
+    },
+    pincode: {
+      type: String,
+    },
+    farmerId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        //unique : true,
+        ref: "Farmer",
+      },
+    ],
+    talukaOfficersId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "TalukaOfficer",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export const DistrictOfficer = mongoose.model("DistrictOfficer", districtOfficerSchema); 
+const DistrictOfficer =
+  mongoose.models.DistrictOfficer ||
+  mongoose.model("DistrictOfficer", districtOfficerSchema);
+
+export default DistrictOfficer;

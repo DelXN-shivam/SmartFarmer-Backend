@@ -1,5 +1,5 @@
 import { generateToken } from "../middleware/authentication.js";
-import Admin from "../models/Admin.js";
+import SuperAdmin from "../models/SuperAdmin.js";
 import bcrypt from 'bcryptjs'
 
 export const adminRegister = async (req, res) => {

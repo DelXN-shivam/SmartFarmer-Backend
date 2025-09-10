@@ -185,7 +185,7 @@ export const getUnverifiedVerifiers = async (req, res) => {
     const verifiers = await Verifier.find({ isVerified });
 
     if (!verifiers || verifiers.length === 0) {
-      return res.status(200).json({
+      return res.status(409).json({
         message: "No verifiers found",
         verifiers: [],
       });

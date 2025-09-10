@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
-import { generateTokens } from '../utils/generateToken.js'; // your token generation function
-import { DistrictOfficer } from '../models/DistrictOfficer.js';
-import TalukaOfficer from '../models/TalukaOfficer.js';
-import { SuperAdmin } from '../models/SuperAdmin.js';
+import { generateTokens } from "../utils/generateToken.js";
+import DistrictOfficer from "../models/DistrictOfficer.js";
+import TalukaOfficer from "../models/TalukaOfficer.js";
+import SuperAdmin from "../models/SuperAdmin.js";
 
 const userModels = [DistrictOfficer, TalukaOfficer, SuperAdmin];
 
@@ -18,12 +18,12 @@ export const login = async (req, res) => {
     }
 
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     // Create a single JWT token (can be short-lived or long-lived)
@@ -33,25 +33,25 @@ export const login = async (req, res) => {
       { expiresIn: "7d" } // adjust expiry as needed
     );
 
-    res.cookie('jwt', token, {
+    res.cookie("jwt", token, {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      secure: false
+      secure: false,
     });
 
     // You can optionally return user info (not token)
     return res.json({
-      message: 'Login successful',
-      role: user.role
+      message: "Login successful",
+      role: user.role,
+      data: user,
+      token: token,
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error', error: err.message });
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
-
-
 
 export const refreshTokenHandler = (req, res) => {
   const cookies = req.cookies;
