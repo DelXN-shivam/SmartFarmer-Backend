@@ -5,9 +5,10 @@ import verifierRouter from "./verifierRouter.js";
 import adminRouter from "./adminRoutes.js";
 import cropRouter from "./cropRoutes.js";
 import { expiredCropRouter } from "./expiredCrop.js";
-import { districtOfficerRouter } from "./districtOfficerRoutes.js";
+// import { districtOfficerRouter } from "./districtOfficerRoutes.js";
 import { superAdminRouter } from "./superAdminRoutes.js";
 import { talukaOfficerRouter } from "./talukaOfficerRoutes.js";
+import districtOfficerRouter from "./districtOfficerRoutes.js";
 //import otpRouter from './otpRoutes.js';
 
 const rootRouter = express.Router();

@@ -37,10 +37,6 @@ const districtOfficerSchema = mongoose.Schema(
       type: String,
       lowercase: true,
     },
-    allocatedTaluka: {
-      type: [String],
-      lowercase: true,
-    },
     district: {
       type: String,
       lowercase: true,
@@ -51,6 +47,10 @@ const districtOfficerSchema = mongoose.Schema(
     },
     pincode: {
       type: String,
+    },
+    role: {
+      type: String,
+      default: "districtOfficer",
     },
     farmerId: [
       {
