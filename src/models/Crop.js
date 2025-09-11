@@ -1,50 +1,60 @@
 import mongoose from 'mongoose';
 import dayjs from 'dayjs';
 
-const cropSchema = new mongoose.Schema({
-  name: { type: String },
-  area: {
-    value: {
-      type: Number,
-      required: true
+const cropSchema = new mongoose.Schema(
+  {
+    name: { type: String },
+    area: {
+      value: {
+        type: Number,
+        required: true,
+      },
+      unit: {
+        type: String,
+        enum: ["acre", "guntha"],
+        required: true,
+      },
     },
-    unit: {
+    sowingDate: { type: Date },
+    expectedFirstHarvestDate: { type: Date },
+    expectedLastHarvestDate: { type: Date },
+    expectedYield: {
+      value: {
+        type: Number,
+      },
+      unit: {
+        type: String,
+        enum: ["kg", "carat", "quintal", "ton"],
+      },
+    },
+    previousCrop: { type: String },
+    latitude: { type: Number },
+    longitude: { type: Number },
+    images: { type: [String] },
+    farmerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Farmer",
+      required: true,
+    },
+    verifierId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "verifier",
+      // required: true
+    },
+    address: {
       type: String,
-      enum: ['acre', 'guntha'],
-      required: true
-    }
+      default: "",
+    },
+    applicationStatus: {
+      type: String,
+      enum: ["pending", "verified", "rejected"],
+      default: "pending",
+    },
   },
-  sowingDate: { type: Date },
-  expectedFirstHarvestDate: { type: Date },
-  expectedLastHarvestDate: { type: Date },
-  expectedYield: { 
-   value : {
-     type: Number
-   } , 
-  unit : {
-    type : String,
-    enum : ['kg' , 'carat' , 'quintal' , 'ton']
+  {
+    timestamps: true,
   }
-    
-  },
-  previousCrop: { type: String },
-  latitude: { type: Number },
-  longitude: { type: Number },
-  images: { type: [String] },
-  farmerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Farmer',
-    required: true
-  },
-  address: {
-    type: String,
-    default: ""
-  },
-  applicationStatus: { type: String, enum: ['pending', 'verified', 'rejected'], default: 'pending' },
-
-}, {
-  timestamps: true
-});
+);
 
 
 cropSchema.methods.toJSON = function () {

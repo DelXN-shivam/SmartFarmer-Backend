@@ -1,39 +1,40 @@
-import logger from '../config/logger.js';
-import { generateToken } from '../middleware/authentication.js';
+import mongoose from "mongoose";
+import logger from "../config/logger.js";
+import { generateToken } from "../middleware/authentication.js";
 import Farmer from "../models/Farmer.js";
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 
 export const farmerRegister = async (req, res, next) => {
   try {
     const body = req.body;
 
-    const existingFarmer = await Farmer.findOne({ email: body.email })
+    const existingFarmer = await Farmer.findOne({ email: body.email });
     if (existingFarmer) {
       return res.status(409).json({
-        message: "Farmer already registered"
-      })
+        message: "Farmer already registered",
+      });
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(body.password, salt);
-    body.password = hashedPassword
+    body.password = hashedPassword;
     const farmer = await Farmer.create(body);
     const token = generateToken({ id: farmer._id });
 
     return res.status(201).json({
       message: "New Farmer Created",
       farmer,
-      token
-    })
-  }
-  catch (err) {
+      token,
+    });
+  } catch (err) {
     logger.error(err);
-    console.error(err)
+    console.error(err);
     next(err);
     return res.status(500).json({
-      error: "Error while farmer register", err
-    })
+      error: "Error while farmer register",
+      err,
+    });
   }
-}
+};
 
 export const getFarmer = async (req, res) => {
   try {
@@ -41,7 +42,7 @@ export const getFarmer = async (req, res) => {
 
     if (!id) {
       return res.status(409).json({
-        message: "Please pass a valid ID"
+        message: "Please pass a valid ID",
       });
     }
 
@@ -49,22 +50,21 @@ export const getFarmer = async (req, res) => {
 
     if (!farmer) {
       return res.status(404).json({
-        message: "Farmer not found"
+        message: "Farmer not found",
       });
     }
 
     return res.status(200).json({
       message: "Farmer found",
-      farmer
+      farmer,
     });
-
   } catch (err) {
     console.error(err);
     logger.error(err);
 
     return res.status(500).json({
       message: "Error while fetching farmer",
-      error: err.message
+      error: err.message,
     });
   }
 };
@@ -76,35 +76,34 @@ export const updateFarmer = async (req, res) => {
     const existingFarmer = await Farmer.findById(id);
     if (!existingFarmer) {
       return res.status(409).json({
-        message: "Farmer does not exist , no farmer found"
-      })
+        message: "Farmer does not exist , no farmer found",
+      });
     }
 
     const updateFarmer = await Farmer.findByIdAndUpdate(id, req.body, {
-      new: true
-    })
+      new: true,
+    });
 
     if (!updateFarmer) {
       return res.status(409).json({
-        message: "Error while updating farmer"
-      })
+        message: "Error while updating farmer",
+      });
     }
 
     return res.status(200).json({
       message: "Farmer Updated Successfully",
-      farmer: updateFarmer
-    })
-  }
-  catch (err) {
+      farmer: updateFarmer,
+    });
+  } catch (err) {
     console.error(err);
     logger.error(err);
 
     return res.status(500).json({
       message: "Error while fetching farmer",
-      error: err.message
+      error: err.message,
     });
   }
-}
+};
 
 export const getFarmers = async (req, res) => {
   try {
@@ -131,37 +130,96 @@ export const getFarmers = async (req, res) => {
   }
 };
 
+// Get Farmers by ID's
+export const getFarmersByIds = async (req, res) => {
+  try {
+    const { ids } = req.body;
+
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({
+        message: "Please provide a valid array of farmer IDs",
+      });
+    }
+
+    // Validate that all IDs are valid MongoDB ObjectIds
+    const validIds = ids.filter((id) => mongoose.Types.ObjectId.isValid(id));
+
+    if (validIds.length === 0) {
+      return res.status(400).json({
+        message: "No valid farmer IDs provided",
+      });
+    }
+
+    const farmers = await Farmer.find({
+      _id: { $in: validIds },
+    });
+
+    if (farmers.length === 0) {
+      return res.status(404).json({
+        message: "No farmers found for the provided IDs",
+      });
+    }
+
+    // Check if any requested IDs were not found
+    const foundIds = farmers.map((farmer) => farmer._id.toString());
+    const notFoundIds = validIds.filter((id) => !foundIds.includes(id));
+
+    return res.status(200).json({
+      message: "Farmers fetched successfully",
+      data: farmers,
+      metadata: {
+        totalRequested: ids.length,
+        validIds: validIds.length,
+        found: farmers.length,
+        notFound: notFoundIds.length,
+        notFoundIds: notFoundIds.length > 0 ? notFoundIds : undefined,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    logger?.error?.(err);
+
+    return res.status(500).json({
+      message: "Error while fetching farmers by IDs",
+      error: err.message,
+    });
+  }
+};
+
 export const farmerLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(409).json({
-        error: "please send email and password"
-      })
+        error: "please send email and password",
+      });
     }
     const existingFarmer = await Farmer.findOne({ email });
     if (!existingFarmer) {
       return res.status(404).json({
-        error: "No farmer found"
-      })
+        error: "No farmer found",
+      });
     }
-    const confirmPassword = await bcrypt.compare(password, existingFarmer.password)
+    const confirmPassword = await bcrypt.compare(
+      password,
+      existingFarmer.password
+    );
     if (!confirmPassword) {
       return res.status(409).json({
-        message: "Password does not match"
-      })
+        message: "Password does not match",
+      });
     }
 
     const token = generateToken({ id: existingFarmer._id });
     if (!token) {
       return res.status(409).json({
-        error: "error while generating token"
-      })
+        error: "error while generating token",
+      });
     }
 
     return res.status(200).json({
-      message: 'Login successful',
+      message: "Login successful",
       token,
       farmer: {
         id: existingFarmer._id,
@@ -178,36 +236,36 @@ export const farmerLogin = async (req, res) => {
       error: err.message,
     });
   }
-}
+};
 
 export const getFarmerByPhone = async (req, res) => {
   const { contact } = req.query;
   if (!contact) {
     return res.status(409).json({
-      message: "Please provide contact"
-    })
+      message: "Please provide contact",
+    });
   }
 
   const farmer = await Farmer.findOne({ contact: contact });
   if (!farmer) {
     return res.status(409).json({
       success: false,
-      message: "Mobile Number not found"
-    })
+      message: "Mobile Number not found",
+    });
   }
   const token = generateToken({ id: farmer._id });
   try {
     if (!token) {
       return res.status(404).json({
-        error: "error while generating token"
-      })
+        error: "error while generating token",
+      });
     }
 
     return res.status(200).json({
       success: true,
-      message: 'Farmer Fetched successfully',
-      token:token,
-      farmer: farmer
+      message: "Farmer Fetched successfully",
+      token: token,
+      farmer: farmer,
     });
   } catch (err) {
     console.error(err);
@@ -218,55 +276,55 @@ export const getFarmerByPhone = async (req, res) => {
       error: err.message,
     });
   }
-}
+};
 
 export const deleteFarmer = async (req, res) => {
   try {
     const { farmerId } = req.params;
     if (!farmerId) {
       return res.status(409).json({
-        message: "Please provide farmerId"
-      })
+        message: "Please provide farmerId",
+      });
     }
 
     const farmer = await Farmer.findById(farmerId);
     if (!farmer) {
       return res.status(409).json({
-        message: "Farmer for the given farmerId does not exist"
-      })
+        message: "Farmer for the given farmerId does not exist",
+      });
     }
 
     const deleteFarmer = await Farmer.findByIdAndDelete(farmerId);
     if (!deleteFarmer) {
       return res.status(409).json({
-        message: "Cannot delete farmer , please try again"
-      })
+        message: "Cannot delete farmer , please try again",
+      });
     }
 
     return res.status(200).json({
-      message: "Farmer deleted successfully"
-    })
+      message: "Farmer deleted successfully",
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({
       error: "Error while deleting farmer",
-      message: err.message
-    })
+      message: err.message,
+    });
   }
-}
+};
 
 const formatInput = (value) => {
   if (!value) return value;
   return value
     .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 };
 
 export const farmerFiletring = async (req, res) => {
   try {
-    const { state, village, taluka, district } = req.query
+    const { state, village, taluka, district } = req.query;
 
     const query = {};
 
@@ -279,22 +337,22 @@ export const farmerFiletring = async (req, res) => {
 
     if (!farmers) {
       return res.status(411).json({
-        message: "No farmers found"
-      })
+        message: "No farmers found",
+      });
     }
 
     res.status(200).json({
       message: "farmers found",
-      farmers
-    })
+      farmers,
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({
       error: "Error while filtering farmers",
-      message: err.message
-    })
+      message: err.message,
+    });
   }
-}
+};
 
 export const countFarmer = async (req, res) => {
   try {
@@ -302,46 +360,51 @@ export const countFarmer = async (req, res) => {
 
     if (!count) {
       return res.status(409).json({
-        message: "Could not calculate count for farmers"
-      })
+        message: "Could not calculate count for farmers",
+      });
     }
 
     return res.status(200).json({
       message: "Count caluclated for farmer",
-      count
-    })
+      count,
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({
-      message: "Error while calculating counr for farmers"
-    })
+      message: "Error while calculating counr for farmers",
+    });
   }
-}
+};
 
 export const farmerRegisterWithContact = async (req, res, next) => {
   try {
     const { contact, ...rest } = req.body;
     if (!contact) {
-      return res.status(400).json({ message: 'Contact number is required' });
+      return res.status(400).json({ message: "Contact number is required" });
     }
     const existingFarmer = await Farmer.findOne({ contact });
     if (existingFarmer) {
-      return res.status(409).json({ message: 'Farmer already registered with this contact number' });
+      return res
+        .status(409)
+        .json({
+          message: "Farmer already registered with this contact number",
+        });
     }
     const farmer = await Farmer.create({ contact, ...rest });
     const token = generateToken({ id: farmer._id });
     return res.status(201).json({
       success: true,
-      message: 'New Farmer Created with Contact',
+      message: "New Farmer Created with Contact",
       farmer,
-      token
+      token,
     });
   } catch (err) {
     logger.error(err);
     console.error(err);
     next(err);
     return res.status(500).json({
-      error: 'Error while farmer register with contact', err
+      error: "Error while farmer register with contact",
+      err,
     });
   }
 };

@@ -2,16 +2,17 @@ import logger from '../config/logger.js';
 import { generateToken } from '../middleware/authentication.js';
 import Verifier from "../models/Verifier.js";
 import bcrypt from 'bcryptjs';
+import mongoose from "mongoose"; // Import mongoose for ObjectId validation
 
 export const verifierRegister = async (req, res, next) => {
   try {
     const body = req.body;
 
-    const existingVerifier = await Verifier.findOne({ email: body.email })
+    const existingVerifier = await Verifier.findOne({ email: body.email });
     if (existingVerifier) {
       return res.status(409).json({
-        message: "Verifier already registered"
-      })
+        message: "Verifier already registered",
+      });
     }
     const verifier = await Verifier.create(body);
     const token = generateToken({ id: verifier._id });
@@ -19,17 +20,17 @@ export const verifierRegister = async (req, res, next) => {
     return res.status(201).json({
       message: "New Verifier Created",
       verifier,
-      token
-    })
-  }
-  catch (err) {
+      token,
+    });
+  } catch (err) {
     logger.error(err);
-    console.error(err)
+    console.error(err);
     return res.status(500).json({
-      error: "Error while verifier register", err
-    })
+      error: "Error while verifier register",
+      err,
+    });
   }
-}
+};
 
 export const getVerifier = async (req, res, next) => {
   try {
@@ -37,7 +38,7 @@ export const getVerifier = async (req, res, next) => {
 
     if (!id) {
       return res.status(403).json({
-        message: "Please pass a valid ID"
+        message: "Please pass a valid ID",
       });
     }
 
@@ -45,22 +46,21 @@ export const getVerifier = async (req, res, next) => {
 
     if (!verifier) {
       return res.status(409).json({
-        message: "Verifier not found"
+        message: "Verifier not found",
       });
     }
 
     return res.status(200).json({
       message: "Verifier found",
-      verifier
+      verifier,
     });
-
   } catch (err) {
     console.error(err);
     logger.error(err);
 
     return res.status(500).json({
       message: "Error while fetching verifier",
-      error: err.message
+      error: err.message,
     });
   }
 };
@@ -72,35 +72,34 @@ export const updateVerifier = async (req, res, next) => {
     const existingVerifier = await Verifier.findById(id);
     if (!existingVerifier) {
       return res.status(402).json({
-        message: "Verifier does not exist , no verifier found"
-      })
+        message: "Verifier does not exist , no verifier found",
+      });
     }
 
     const updatedVerifier = await Verifier.findByIdAndUpdate(id, req.body, {
-      new: true
-    })
+      new: true,
+    });
 
     if (!updatedVerifier) {
       return res.status(402).json({
-        message: "Error while updating verifier"
-      })
+        message: "Error while updating verifier",
+      });
     }
 
     return res.status(200).json({
       message: "Verifier Updated Successfully",
-      verifier: updatedVerifier
-    })
-  }
-  catch (err) {
+      verifier: updatedVerifier,
+    });
+  } catch (err) {
     console.error(err);
     logger.error(err);
 
     return res.status(500).json({
       message: "Error while fetching verifier",
-      error: err.message
+      error: err.message,
     });
   }
-}
+};
 
 export const getVerifiers = async (req, res, next) => {
   try {
@@ -133,31 +132,31 @@ export const verifierLogin = async (req, res) => {
 
     if (!email || !password) {
       return res.status(409).json({
-        error: "please send email and password"
-      })
+        error: "please send email and password",
+      });
     }
     const existingVerifier = await Verifier.findOne({ email });
     if (!existingVerifier) {
       return res.status(409).json({
-        error: "No verifier found"
-      })
+        error: "No verifier found",
+      });
     }
-    const confirmPassword = bcrypt.compare(password, existingVerifier.password)
+    const confirmPassword = bcrypt.compare(password, existingVerifier.password);
     if (!confirmPassword) {
       return res.status(409).json({
-        message: "Password does not match"
-      })
+        message: "Password does not match",
+      });
     }
 
     const token = generateToken({ id: existingVerifier._id });
     if (!token) {
       return res.status(409).json({
-        error: "error while generating token"
-      })
+        error: "error while generating token",
+      });
     }
 
     return res.status(200).json({
-      message: 'Login successful',
+      message: "Login successful",
       token,
       verifier: {
         id: existingVerifier._id,
@@ -175,7 +174,7 @@ export const verifierLogin = async (req, res) => {
       error: err.message,
     });
   }
-}
+};
 
 export const getUnverifiedVerifiers = async (req, res) => {
   try {
@@ -195,7 +194,6 @@ export const getUnverifiedVerifiers = async (req, res) => {
       message: "Verifiers fetched successfully",
       verifiers,
     });
-
   } catch (err) {
     console.error(err);
 
@@ -205,7 +203,6 @@ export const getUnverifiedVerifiers = async (req, res) => {
     });
   }
 };
-
 
 export const deleteVerifier = async (req, res) => {
   const { id } = req.params;
@@ -221,13 +218,14 @@ export const deleteVerifier = async (req, res) => {
       return res.status(409).json({ message: "Verifier not found" });
     }
 
-    return res.status(200).json({ message: "Verifier deleted successfully", verifier });
+    return res
+      .status(200)
+      .json({ message: "Verifier deleted successfully", verifier });
   } catch (err) {
     console.error("Error deleting verifier:", err);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 
 export const countVerifier = async (req, res) => {
   try {
@@ -235,34 +233,34 @@ export const countVerifier = async (req, res) => {
 
     if (!count) {
       return res.status(409).json({
-        message: "Could not calculate count for verifier"
-      })
+        message: "Could not calculate count for verifier",
+      });
     }
 
     return res.status(200).json({
       message: "Count caluclated for verifier",
-      count
-    })
+      count,
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({
-      message: "Error while calculating counr for verifiers"
-    })
+      message: "Error while calculating counr for verifiers",
+    });
   }
-}
+};
 
 const formatInput = (value) => {
   if (!value) return value;
   return value
     .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 };
 
 export const verifierFiletring = async (req, res) => {
   try {
-    const { state, village, taluka, district } = req.query
+    const { state, village, taluka, district } = req.query;
 
     const query = {};
 
@@ -275,55 +273,52 @@ export const verifierFiletring = async (req, res) => {
 
     if (!verifiers || verifiers.length === 0) {
       return res.status(404).json({
-        message: "No verifiers found"
+        message: "No verifiers found",
       });
     }
 
-
     res.status(200).json({
       message: "verifiers found",
-      verifiers
-    })
+      verifiers,
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({
       error: "Error while filtering verifiers",
-      message: err.message
-    })
+      message: err.message,
+    });
   }
-}
+};
 
+export const getVerifierByPhone = async (req, res) => {
+  const { contact } = req.query;
 
-export const getVerifierByPhone = async (req , res) => {
-  
-  const {contact} = req.query;
-
-  if(!contact){
+  if (!contact) {
     return res.status(409).json({
-      message : "Please provide contact"
-    })
+      message: "Please provide contact",
+    });
   }
 
-  const verifier = await Verifier.findOne({contact : contact});
-  if(!verifier){
+  const verifier = await Verifier.findOne({ contact: contact });
+  if (!verifier) {
     return res.status(409).json({
-      message : "No Verifier found with given contact"
-    })
+      message: "No Verifier found with given contact",
+    });
   }
   const token = generateToken({ id: verifier._id });
-    try {
-      if (!token) {
+  try {
+    if (!token) {
       return res.status(404).json({
-        error: "error while generating token"
-      })
+        error: "error while generating token",
+      });
     }
 
     return res.status(200).json({
-      message: 'Login successful',
+      message: "Login successful",
       token,
-      verifier: verifier
+      verifier: verifier,
     });
-    } catch (err) {
+  } catch (err) {
     console.error(err);
     logger?.error?.(err);
 
@@ -332,4 +327,60 @@ export const getVerifierByPhone = async (req , res) => {
       error: err.message,
     });
   }
-}
+};
+
+// New function to fetch verifiers by multiple IDs
+export const getVerifiersByIds = async (req, res) => {
+  try {
+    const { ids } = req.body;
+
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({
+        message: "Please provide a valid array of verifier IDs",
+      });
+    }
+
+    // Validate that all IDs are valid MongoDB ObjectIds
+    const validIds = ids.filter((id) => mongoose.Types.ObjectId.isValid(id));
+
+    if (validIds.length === 0) {
+      return res.status(400).json({
+        message: "No valid verifier IDs provided",
+      });
+    }
+
+    const verifiers = await Verifier.find({
+      _id: { $in: validIds },
+    });
+
+    if (verifiers.length === 0) {
+      return res.status(404).json({
+        message: "No verifiers found for the provided IDs",
+      });
+    }
+
+    // Check if any requested IDs were not found
+    const foundIds = verifiers.map((verifier) => verifier._id.toString());
+    const notFoundIds = validIds.filter((id) => !foundIds.includes(id));
+
+    return res.status(200).json({
+      message: "Verifiers fetched successfully",
+      data: verifiers,
+      metadata: {
+        totalRequested: ids.length,
+        validIds: validIds.length,
+        found: verifiers.length,
+        notFound: notFoundIds.length,
+        notFoundIds: notFoundIds.length > 0 ? notFoundIds : undefined,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    logger?.error?.(err);
+
+    return res.status(500).json({
+      message: "Error while fetching verifiers by IDs",
+      error: err.message,
+    });
+  }
+};

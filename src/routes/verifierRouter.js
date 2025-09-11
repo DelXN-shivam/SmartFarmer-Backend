@@ -2,7 +2,7 @@ import express from 'express'
 import { validateRequest } from '../middleware/validation.js';
 import { authenticateJWT } from '../middleware/authentication.js';
 import { loginVerifierValidation, updateVerifierValidation, verifierValidationSchema } from '../validations/verifierValidation.js';
-import { countVerifier, deleteVerifier, getUnverifiedVerifiers, getVerifier, getVerifierByPhone, getVerifiers, updateVerifier, verifierFiletring, verifierLogin, verifierRegister } from '../controllers/verifierController.js';
+import { countVerifier, deleteVerifier, getUnverifiedVerifiers, getVerifier, getVerifierByPhone, getVerifiers, getVerifiersByIds, updateVerifier, verifierFiletring, verifierLogin, verifierRegister } from '../controllers/verifierController.js';
 
 const verifierRouter = express.Router();
 
@@ -14,6 +14,7 @@ verifierRouter.get('/filter', authenticateJWT , verifierFiletring);
 verifierRouter.get('/count', countVerifier);
 verifierRouter.post('/contact' , getVerifierByPhone)
 verifierRouter.get('/' , authenticateJWT , getVerifiers);
+verifierRouter.post('/by-ids', authenticateJWT, getVerifiersByIds); // New route
 // verifierRouter.get('/:id' , authenticateJWT , getVerifier);
 verifierRouter.get('/:id' , getVerifier);
 // verifierRouter.patch('/update/:id' , validateRequest(updateVerifierValidation) , authenticateJWT , updateVerifier);
