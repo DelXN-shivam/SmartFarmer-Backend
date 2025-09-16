@@ -7,13 +7,21 @@ export const talukaOfficerRegister = async (req, res, next) => {
   try {
     const body = req.body;
 
+    // const existingTalukaOfficer = await TalukaOfficer.findOne({
+    //   email: body.email,
+    // });
+
     const existingTalukaOfficer = await TalukaOfficer.findOne({
-      email: body.email,
+      $or: [
+        { email: body.email },
+        { contact: body.contact },
+        { aadhaarNumber: body.aadhaarNumber },
+      ],
     });
 
     if (existingTalukaOfficer) {
       return res.status(409).json({
-        message: "Taluka Officer already registered",
+        message: "Taluka Officer already registered with this email, contact, or Aadhaar",
       });
     }
 

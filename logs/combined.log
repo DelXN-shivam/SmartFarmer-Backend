@@ -1467,3 +1467,52 @@
 {"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-10T12:49:27.822Z"}
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-09-10T12:50:27.198Z"}
 {"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-10T12:50:27.205Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-09-12T05:39:15.631Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-12T05:39:15.663Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-12T06:30:32.280Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-12T06:30:32.296Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-12T06:30:40.884Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-12T06:30:40.891Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-12T06:30:59.400Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-12T06:30:59.408Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-12T11:33:07.578Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-12T11:33:07.600Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-12T12:57:05.355Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-12T12:57:05.363Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-15T07:18:19.010Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T07:18:19.029Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-15T07:30:56.998Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T07:30:57.004Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-15T07:31:25.797Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T07:31:25.804Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-09-15T07:31:42.209Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T07:31:42.215Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-15T07:53:47.202Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T07:53:47.210Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-15T07:58:34.278Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T07:58:34.285Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-15T08:00:09.553Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T08:00:09.560Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-15T08:00:38.803Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T08:00:38.810Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-15T08:00:47.662Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T08:00:47.668Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-09-15T08:01:09.532Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T08:01:09.540Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-15T08:05:55.543Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T08:05:55.549Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-15T09:44:14.674Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T09:44:14.694Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-09-15T09:45:15.529Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T09:45:15.562Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-15T09:46:05.085Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T09:46:05.113Z"}
+{"level":"error","message":"Error: Not Found - /favicon.ico\n    at notFoundHandler (file:///C:/Users/ADMIN/Desktop/SmartFarmer/SmartFarmer-Backend/src/middleware/errorHandler.js:15:17)\n    at Layer.handle [as handle_request] (C:\\Users\\ADMIN\\Desktop\\SmartFarmer\\SmartFarmer-Backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\ADMIN\\Desktop\\SmartFarmer\\SmartFarmer-Backend\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\ADMIN\\Desktop\\SmartFarmer\\SmartFarmer-Backend\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\ADMIN\\Desktop\\SmartFarmer\\SmartFarmer-Backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\ADMIN\\Desktop\\SmartFarmer\\SmartFarmer-Backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at file:///C:/Users/ADMIN/Desktop/SmartFarmer/SmartFarmer-Backend/node_modules/express-rate-limit/dist/index.mjs:779:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async file:///C:/Users/ADMIN/Desktop/SmartFarmer/SmartFarmer-Backend/node_modules/express-rate-limit/dist/index.mjs:663:5","timestamp":"2025-09-15T09:46:29.831Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-15T13:25:41.541Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-15T13:25:41.552Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-16T05:13:47.521Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-16T05:13:47.527Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-16T06:17:15.226Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-16T06:17:15.232Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-16T06:26:33.260Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-16T06:26:33.283Z"}

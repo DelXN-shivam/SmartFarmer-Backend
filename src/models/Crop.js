@@ -38,7 +38,7 @@ const cropSchema = new mongoose.Schema(
     },
     verifierId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "verifier",
+      ref: "Verifier",
       // required: true
     },
     address: {
@@ -57,13 +57,20 @@ const cropSchema = new mongoose.Schema(
 );
 
 
+// cropSchema.methods.toJSON = function () {
+//   const obj = this.toObject();
+//   obj.sowingDate = dayjs(obj.sowingDate).format('DD-MM-YYYY');
+//   obj.expectedHarvestDate = dayjs(obj.expectedHarvestDate).format('DD-MM-YYYY');
+//   return obj;
+// };
+
 cropSchema.methods.toJSON = function () {
   const obj = this.toObject();
-  obj.sowingDate = dayjs(obj.sowingDate).format('DD-MM-YYYY');
-  obj.expectedHarvestDate = dayjs(obj.expectedHarvestDate).format('DD-MM-YYYY');
+  if (obj.sowingDate) obj.sowingDate = dayjs(obj.sowingDate).format('DD-MM-YYYY');
+  if (obj.expectedFirstHarvestDate) obj.expectedFirstHarvestDate = dayjs(obj.expectedFirstHarvestDate).format('DD-MM-YYYY');
+  if (obj.expectedLastHarvestDate) obj.expectedLastHarvestDate = dayjs(obj.expectedLastHarvestDate).format('DD-MM-YYYY');
   return obj;
 };
-
 
 const Crop = mongoose.models.Crop || mongoose.model("Crop", cropSchema);
 export default Crop;

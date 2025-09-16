@@ -40,6 +40,16 @@ export const login = async (req, res) => {
       secure: false,
     });
 
+
+    const safeUser = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      talukaId: user.talukaId || null,
+      districtId: user.districtId || null,
+    };
+
     // You can optionally return user info (not token)
     return res.json({
       message: "Login successful",
