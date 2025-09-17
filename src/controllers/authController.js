@@ -1,11 +1,13 @@
 import jwt from "jsonwebtoken";
-import bcrypt from 'bcrypt';
-import { generateTokens } from "../utils/generateToken.js";
+import bcrypt from "bcrypt";
 import DistrictOfficer from "../models/DistrictOfficer.js";
 import TalukaOfficer from "../models/TalukaOfficer.js";
 import SuperAdmin from "../models/SuperAdmin.js";
+import Farmer from "../models/Farmer.js";
+import Verifier from "../models/Verifier.js";
 
 const userModels = [DistrictOfficer, TalukaOfficer, SuperAdmin];
+const mobileUserModels = [Farmer, Verifier];
 
 export const login = async (req, res) => {
   try {
@@ -40,6 +42,59 @@ export const login = async (req, res) => {
       secure: false,
     });
 
+    const safeUser = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      talukaId: user.talukaId || null,
+      districtId: user.districtId || null,
+    };
+
+    // You can optionally return user info (not token)
+    return res.json({
+      message: "Login successful",
+      role: user.role,
+      data: user,
+      token: token,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+export const mobileLoginByContact = async (req, res) => {
+  const { contact } = req.query;
+
+  if (!contact) {
+    return res.status(409).json({
+      message: "Please provide contact",
+    });
+  }
+
+  try {
+    let user = null;
+    for (const Model of mobileUserModels) {
+      user = await Model.findOne({ contact });
+      if (user) break;
+    }
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // const isMatch = await bcrypt.compare(password, user.password);
+    // if (!isMatch) {
+    //   return res.status(401).json({ message: "Invalid credentials" });
+    // }
+
+    // Create a single JWT token (can be short-lived or long-lived)
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" } // adjust expiry as needed
+    );
 
     const safeUser = {
       id: user._id,
@@ -62,6 +117,7 @@ export const login = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 export const refreshTokenHandler = (req, res) => {
   const cookies = req.cookies;

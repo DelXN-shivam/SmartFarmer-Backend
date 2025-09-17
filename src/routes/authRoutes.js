@@ -1,6 +1,11 @@
 import express from "express";
 // import { loginDistrictOfficer } from "../controllers/districtOfficerController.js";
-import { login, refreshTokenHandler } from "../controllers/authController.js";
+import {
+  login,
+  logout,
+  mobileLoginByContact,
+  refreshTokenHandler,
+} from "../controllers/authController.js";
 import {
   loginSuperAdmin,
   registerSuperAdmin,
@@ -34,6 +39,7 @@ authRouter.get("/me", verifyCookieToken, (req, res) => {
 // General Auth Routes
 authRouter.post("/login", validateRequest(loginSchema), login);
 authRouter.get("/refresh", refreshTokenHandler); // refresh access token
+authRouter.post("/logout", logout); // clear cookie
 
 // Super Admin Routes
 authRouter.post("/super-admin/register", registerSuperAdmin);
@@ -47,34 +53,7 @@ authRouter.post("/district-officer/login", districtOfficerLogin);
 authRouter.post("/taluka-officer/register", talukaOfficerRegister);
 authRouter.post("/taluka-officer/login", talukaOfficerLogin);
 
+// Farmer and Verifier Routes
+authRouter.post("/mobile-user/loginByContact", mobileLoginByContact);
 
 export default authRouter;
-
-// import express from "express";
-// import { login, refreshTokenHandler } from "../controllers/authController.js";
-// import {
-//   loginSuperAdmin,
-//   registerSuperAdmin,
-// } from "../controllers/superAdminController.js";
-
-// import { verifyCookieToken } from "../middleware/verifyCookie.js";
-// // import { adminLogin, adminRegister } from "../controllers/adminController.js";
-
-// const authRouter = express.Router();
-
-// authRouter.get("/me", verifyCookieToken, (req, res) => {
-//   res.json({
-//     user: req.user, // e.g. { id, role, email }
-//   });
-// });
-
-// // Super Admin
-// authRouter.post("/super-admin/register", registerSuperAdmin);
-// authRouter.post("/super-admin/login", loginSuperAdmin);
-
-// authRouter.post("/login", login);
-
-// authRouter.get("/refresh", refreshTokenHandler); // refresh access token
-// // authRouter.post("/logout", logout); // clear cookie
-
-// export default authRouter;

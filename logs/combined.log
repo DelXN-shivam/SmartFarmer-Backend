@@ -1516,3 +1516,15 @@
 {"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-16T06:17:15.232Z"}
 {"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-16T06:26:33.260Z"}
 {"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-16T06:26:33.283Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-16T07:02:39.897Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-16T07:02:39.905Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-01.mvwhevv.mongodb.net","timestamp":"2025-09-16T07:30:38.279Z"}
+{"level":"error","message":"Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.mvwhevv.mongodb.net","timestamp":"2025-09-16T13:23:26.435Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-09-17T14:50:48.219Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-17T14:50:48.228Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-17T14:58:03.503Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-17T14:58:03.515Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-00.mvwhevv.mongodb.net","timestamp":"2025-09-17T14:58:15.337Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-17T14:58:15.350Z"}
+{"level":"info","message":"MongoDB Connected: ac-b92brq6-shard-00-02.mvwhevv.mongodb.net","timestamp":"2025-09-17T15:40:56.671Z"}
+{"level":"info","message":"✅ Server running in development mode on port 1000","timestamp":"2025-09-17T15:40:56.695Z"}
