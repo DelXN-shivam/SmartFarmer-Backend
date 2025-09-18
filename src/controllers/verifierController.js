@@ -1,6 +1,7 @@
 import logger from '../config/logger.js';
 import { generateToken } from '../middleware/authentication.js';
 import Verifier from "../models/Verifier.js";
+import Crop from "../models/Crop.js";
 import bcrypt from 'bcryptjs';
 import mongoose from "mongoose"; // Import mongoose for ObjectId validation
 import { assignExistingCropsToVerifier } from '../utils/verifierAssignment.js';
@@ -105,7 +106,13 @@ export const updateVerifier = async (req, res, next) => {
       JSON.stringify(req.body.allocatedTaluka.sort()) !== JSON.stringify(existingVerifier.allocatedTaluka.sort());
     
     if (districtChanged || talukasChanged) {
-      // Clear existing crop assignments
+      // Clear verifierId from crops that were previously assigned to this verifier
+      await Crop.updateMany(
+        { verifierId: id },
+        { $unset: { verifierId: 1 } }
+      );
+      
+      // Clear existing crop assignments from verifier
       await Verifier.findByIdAndUpdate(id, { $set: { cropId: [] } });
       
       // Reassign crops based on new district/talukas

@@ -61,23 +61,28 @@ Added test endpoint for verifying assignments
 3. Find matching taluka officers and assign crop
 4. **NEW**: Find verifiers in same district with matching allocated talukas
 5. Add crop ID to matching verifiers' cropId arrays
+6. **NEW**: Set verifierId field in the crop document
 
 ### When Registering a New Verifier:
 1. Create verifier record
 2. **NEW**: Find existing crops in verifier's district and allocated talukas
 3. Bulk assign matching crops to the new verifier
+4. **NEW**: Update verifierId field in all assigned crops
 
 ### When Updating Verifier Location:
 1. Update verifier details
 2. **NEW**: If district or allocated talukas changed:
-   - Clear existing crop assignments
+   - Clear verifierId from previously assigned crops
+   - Clear existing crop assignments from verifier
    - Reassign crops based on new location criteria
+   - Update verifierId in newly assigned crops
 
 ### When Deleting a Crop:
 1. **NEW**: Remove crop from all verifiers' cropId arrays
-2. Remove crop from farmer's crops array
-3. Remove crop from taluka officers
-4. Delete the crop record
+2. **NEW**: Clear verifierId field from the crop
+3. Remove crop from farmer's crops array
+4. Remove crop from taluka officers
+5. Delete the crop record
 
 ## Matching Criteria
 
@@ -89,9 +94,11 @@ A crop gets assigned to a verifier if:
 
 The implementation ensures:
 - No duplicate crop IDs in verifier arrays (using `$addToSet`)
+- Bidirectional relationship: crops have verifierId, verifiers have cropId arrays
 - Proper cleanup when crops are deleted
 - Automatic reassignment when verifier locations change
 - Case-insensitive matching for districts and talukas
+- Orphaned crop cleanup when verifier assignments change
 
 ## Testing
 

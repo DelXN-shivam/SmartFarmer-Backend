@@ -45,6 +45,13 @@ export const assignCropToVerifiers = async (farmer, cropId) => {
       { $addToSet: { cropId: cropId } }
     );
 
+    // Update crop with the first matching verifier ID
+    if (verifierIds.length > 0) {
+      await Crop.findByIdAndUpdate(cropId, {
+        verifierId: verifierIds[0]
+      });
+    }
+
     return {
       success: true,
       message: `Crop assigned to ${verifierIds.length} verifier(s)`,
@@ -75,6 +82,11 @@ export const removeCropFromVerifiers = async (cropId) => {
       { cropId: cropId },
       { $pull: { cropId: cropId } }
     );
+
+    // Clear verifierId from crop
+    await Crop.findByIdAndUpdate(cropId, {
+      $unset: { verifierId: 1 }
+    });
 
     return {
       success: true,
@@ -146,6 +158,12 @@ export const assignExistingCropsToVerifier = async (verifierId, district, alloca
       verifierId,
       { $addToSet: { cropId: { $each: cropIds } } },
       { new: true }
+    );
+
+    // Update all matching crops with this verifier ID
+    await Crop.updateMany(
+      { _id: { $in: cropIds } },
+      { verifierId: verifierId }
     );
 
     return {
