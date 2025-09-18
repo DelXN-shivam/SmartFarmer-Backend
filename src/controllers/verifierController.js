@@ -3,6 +3,7 @@ import { generateToken } from '../middleware/authentication.js';
 import Verifier from "../models/Verifier.js";
 import bcrypt from 'bcryptjs';
 import mongoose from "mongoose"; // Import mongoose for ObjectId validation
+import { assignExistingCropsToVerifier } from '../utils/verifierAssignment.js';
 
 export const verifierRegister = async (req, res, next) => {
   try {
@@ -17,10 +18,21 @@ export const verifierRegister = async (req, res, next) => {
     const verifier = await Verifier.create(body);
     const token = generateToken({ id: verifier._id });
 
+    // Assign existing crops to the new verifier if district and allocated talukas are provided
+    let cropAssignment = null;
+    if (verifier.district && verifier.allocatedTaluka && verifier.allocatedTaluka.length > 0) {
+      cropAssignment = await assignExistingCropsToVerifier(
+        verifier._id,
+        verifier.district,
+        verifier.allocatedTaluka
+      );
+    }
+
     return res.status(201).json({
       message: "New Verifier Created",
       verifier,
       token,
+      cropAssignment
     });
   } catch (err) {
     logger.error(err);
@@ -86,16 +98,37 @@ export const updateVerifier = async (req, res, next) => {
       });
     }
 
+    // Check if district or allocated talukas were updated and reassign crops if needed
+    let cropAssignment = null;
+    const districtChanged = req.body.district && req.body.district !== existingVerifier.district;
+    const talukasChanged = req.body.allocatedTaluka && 
+      JSON.stringify(req.body.allocatedTaluka.sort()) !== JSON.stringify(existingVerifier.allocatedTaluka.sort());
+    
+    if (districtChanged || talukasChanged) {
+      // Clear existing crop assignments
+      await Verifier.findByIdAndUpdate(id, { $set: { cropId: [] } });
+      
+      // Reassign crops based on new district/talukas
+      if (updatedVerifier.district && updatedVerifier.allocatedTaluka && updatedVerifier.allocatedTaluka.length > 0) {
+        cropAssignment = await assignExistingCropsToVerifier(
+          updatedVerifier._id,
+          updatedVerifier.district,
+          updatedVerifier.allocatedTaluka
+        );
+      }
+    }
+
     return res.status(200).json({
       message: "Verifier Updated Successfully",
       verifier: updatedVerifier,
+      cropAssignment
     });
   } catch (err) {
     console.error(err);
     logger.error(err);
 
     return res.status(500).json({
-      message: "Error while fetching verifier",
+      message: "Error while updating verifier",
       error: err.message,
     });
   }

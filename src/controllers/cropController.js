@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 import Crop from '../models/Crop.js';
 import Farmer from '../models/Farmer.js';
 import Verifier from '../models/Verifier.js';
-import TalukaOfficer from "../models/TalukaOfficer.js"
+import TalukaOfficer from "../models/TalukaOfficer.js";
+import { assignCropToVerifiers, removeCropFromVerifiers } from '../utils/verifierAssignment.js';
 
 export const addCrop = async (req, res) => {
   try {
@@ -41,11 +42,15 @@ export const addCrop = async (req, res) => {
       { $addToSet: { cropId: newCrop._id } }
     );
 
+    // Assign crop to verifiers based on district and allocated talukas
+    const verifierAssignment = await assignCropToVerifiers(farmer, newCrop._id);
+
     return res.status(201).json({
       message: "Crop added and linked to farmer successfully",
       data: newCrop,
       updatedTalukaOfficerIds: talukaOfficerIds,
-      talukaOfficerDetails: updatedTalukaOfficers
+      talukaOfficerDetails: updatedTalukaOfficers,
+      verifierAssignment
     });
   } catch (err) {
     console.error(err);
@@ -114,6 +119,20 @@ export const deleteCrop = async (req, res) => {
       })
     }
 
+    // Remove crop from verifiers before deleting
+    const verifierRemoval = await removeCropFromVerifiers(cropId);
+
+    // Remove crop from farmer's crops array
+    await Farmer.findByIdAndUpdate(crop.farmerId, {
+      $pull: { crops: cropId }
+    });
+
+    // Remove crop from taluka officers
+    await TalukaOfficer.updateMany(
+      { cropId: cropId },
+      { $pull: { cropId: cropId } }
+    );
+
     const deletedCrop = await Crop.findByIdAndDelete(cropId);
     if (!deletedCrop) {
       return res.status(409).json({
@@ -122,12 +141,13 @@ export const deleteCrop = async (req, res) => {
     }
 
     return res.status(200).json({
-      message: "Crop deleted Succesfully"
+      message: "Crop deleted successfully",
+      verifierRemoval
     })
   } catch (err) {
     console.error(err);
     return res.status(500).json({
-      message: "Erro while deleting Crop"
+      message: "Error while deleting Crop"
     })
   }
 };
@@ -297,6 +317,47 @@ export const getRecentCrops = async (req, res) => {
     console.error("Error fetching recent crops:", err);
     return res.status(500).json({
       message: "Error while fetching recent crops",
+      error: err.message
+    });
+  }
+};
+
+// Test endpoint to verify verifier-crop assignments
+export const testVerifierAssignments = async (req, res) => {
+  try {
+    const verifiers = await Verifier.find()
+      .populate('cropId', 'name farmerId')
+      .populate({
+        path: 'cropId',
+        populate: {
+          path: 'farmerId',
+          select: 'name district taluka'
+        }
+      });
+
+    const assignmentSummary = verifiers.map(verifier => ({
+      verifierId: verifier._id,
+      verifierName: verifier.name,
+      district: verifier.district,
+      allocatedTalukas: verifier.allocatedTaluka,
+      assignedCropsCount: verifier.cropId.length,
+      assignedCrops: verifier.cropId.map(crop => ({
+        cropId: crop._id,
+        cropName: crop.name,
+        farmerName: crop.farmerId?.name,
+        farmerDistrict: crop.farmerId?.district,
+        farmerTaluka: crop.farmerId?.taluka
+      }))
+    }));
+
+    return res.status(200).json({
+      message: "Verifier-crop assignments retrieved successfully",
+      data: assignmentSummary
+    });
+  } catch (err) {
+    console.error("Error testing verifier assignments:", err);
+    return res.status(500).json({
+      message: "Error while testing verifier assignments",
       error: err.message
     });
   }
