@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const talukaOfficerSchema = new mongoose.Schema(
   {
@@ -63,6 +63,12 @@ const talukaOfficerSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Crop",
+      },
+    ],
+    verifierId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Verifier",
       },
     ],
     role: {

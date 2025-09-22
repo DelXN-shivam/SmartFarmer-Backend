@@ -8,8 +8,6 @@ import { addCrop, deleteCrop, filterCrop, getCrop, updateCrop, getCropsByIds, ge
 
 const cropRouter = express.Router();
 
-
-
 // cropRouter.post('/add/:farmerId', authenticateJWT, validateRequest(cropValidationSchema), addCrop);
 
 cropRouter.get("/recent", getRecentCrops);

@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
-import dayjs from 'dayjs';
+import mongoose from "mongoose";
+import dayjs from "dayjs";
+import { timeStamp } from "console";
 
 const cropSchema = new mongoose.Schema(
   {
@@ -31,6 +32,11 @@ const cropSchema = new mongoose.Schema(
     latitude: { type: Number },
     longitude: { type: Number },
     images: { type: [String] },
+    verifiedImages: { type: [String] },
+    verifiedTime: {
+      type: Date,
+      default: Date.now,
+    },
     farmerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Farmer",
@@ -50,12 +56,15 @@ const cropSchema = new mongoose.Schema(
       enum: ["pending", "verified", "rejected"],
       default: "pending",
     },
+    rejectedReason: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,
   }
 );
-
 
 // cropSchema.methods.toJSON = function () {
 //   const obj = this.toObject();
@@ -66,9 +75,16 @@ const cropSchema = new mongoose.Schema(
 
 cropSchema.methods.toJSON = function () {
   const obj = this.toObject();
-  if (obj.sowingDate) obj.sowingDate = dayjs(obj.sowingDate).format('DD-MM-YYYY');
-  if (obj.expectedFirstHarvestDate) obj.expectedFirstHarvestDate = dayjs(obj.expectedFirstHarvestDate).format('DD-MM-YYYY');
-  if (obj.expectedLastHarvestDate) obj.expectedLastHarvestDate = dayjs(obj.expectedLastHarvestDate).format('DD-MM-YYYY');
+  if (obj.sowingDate)
+    obj.sowingDate = dayjs(obj.sowingDate).format("DD-MM-YYYY");
+  if (obj.expectedFirstHarvestDate)
+    obj.expectedFirstHarvestDate = dayjs(obj.expectedFirstHarvestDate).format(
+      "DD-MM-YYYY"
+    );
+  if (obj.expectedLastHarvestDate)
+    obj.expectedLastHarvestDate = dayjs(obj.expectedLastHarvestDate).format(
+      "DD-MM-YYYY"
+    );
   return obj;
 };
 
