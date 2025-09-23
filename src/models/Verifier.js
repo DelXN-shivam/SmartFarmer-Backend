@@ -66,6 +66,10 @@ const verifierSchema = new mongoose.Schema(
         ref: "Crop",
       },
     ],
+    talukaOfficerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "TalukaOfficer",
+    }
   },
   {
     timestamps: true,
