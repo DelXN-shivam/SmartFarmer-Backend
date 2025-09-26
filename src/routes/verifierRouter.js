@@ -6,7 +6,8 @@ import { countVerifier, deleteVerifier, getUnverifiedVerifiers, getVerifier, get
 
 const verifierRouter = express.Router();
 
-verifierRouter.post('/register' , validateRequest(verifierValidationSchema) , verifierRegister);
+// verifierRouter.post('/register' , validateRequest(verifierValidationSchema) , verifierRegister);
+verifierRouter.post('/register', verifierRegister);
 // verifierRouter.post('/add' , authenticateJWT , validateRequest(verifierValidationSchema) , verifierRegister);
 verifierRouter.post('/add' , validateRequest(verifierValidationSchema) , verifierRegister);
 verifierRouter.get('/unverified' ,authenticateJWT , getUnverifiedVerifiers) 

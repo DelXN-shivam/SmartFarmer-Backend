@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 import logger from '../config/logger.js';
 import { generateToken } from '../middleware/authentication.js';
 import Verifier from "../models/Verifier.js";
@@ -17,68 +9,134 @@ import { assignExistingCropsToVerifier } from '../utils/verifierAssignment.js';
 
 // src/controllers/verifierController.js
 
+// export const verifierRegister = async (req, res) => {
+//   try {
+//     const body = req.body;
+
+//     // Prevent duplicate email
+//     const existingVerifier = await Verifier.findOne({ email: body.email });
+//     if (existingVerifier) {
+//       return res.status(409).json({ message: "Verifier already registered" });
+//     }
+
+//     // Create verifier (MongoDB auto-generates _id)
+//     const verifier = await Verifier.create(body);
+//     const token = generateToken({ id: verifier._id });
+
+//     // Assign existing crops if any
+//     let cropAssignment = null;
+//     if (verifier.district && verifier.allocatedTaluka?.length > 0) {
+//       cropAssignment = await assignExistingCropsToVerifier(
+//         verifier._id,
+//         verifier.district,
+//         verifier.allocatedTaluka
+//       );
+//     }
+
+//     // 🔗 Auto-link verifier to TalukaOfficer based on taluka + district
+//     const linkedOfficer = await TalukaOfficer.findOneAndUpdate(
+//       {
+//         taluka: { $regex: new RegExp(`^${verifier.taluka}$`, "i") },
+//         district: { $regex: new RegExp(`^${verifier.district}$`, "i") },
+//       },
+//       { $addToSet: { verifierId: verifier._id } },
+//       { new: true }
+//     );
+
+//     // Update verifier with linked talukaOfficerId for reference
+//     if (linkedOfficer) {
+//       await Verifier.findByIdAndUpdate(verifier._id, {
+//         talukaOfficerId: linkedOfficer._id,
+//       });
+//     }
+
+//     return res.status(201).json({
+//       message: linkedOfficer
+//         ? "New Verifier Created & Linked to Taluka Officer"
+//         : "New Verifier Created (No matching Taluka Officer found)",
+//       verifier: {
+//         ...verifier.toObject(),
+//         talukaOfficerId: linkedOfficer?._id || null,
+//       },
+//       token,
+//       cropAssignment,
+//       linkedTo: linkedOfficer ? linkedOfficer._id : null,
+//     });
+//   } catch (err) {
+//     console.error("Error in verifierRegister:", err);
+//     return res.status(500).json({
+//       error: "Error while verifier register",
+//       details: err.message,
+//     });
+//   }
+// };
 export const verifierRegister = async (req, res) => {
   try {
+    console.log("Request body:", req.body);
+
     const body = req.body;
 
-    // Prevent duplicate email
-    const existingVerifier = await Verifier.findOne({ email: body.email });
+    // Duplicate check
+    const existingVerifier = await Verifier.findOne({ 
+      $or: [
+        { email: body.email },
+        { contact: body.contact },
+        { aadhaarNumber: body.aadhaarNumber }
+      ]
+    });
+    
     if (existingVerifier) {
-      return res.status(409).json({ message: "Verifier already registered" });
+      return res.status(409).json({ 
+        message: "Verifier with same email, contact or Aadhaar already exists" 
+      });
     }
 
-    // Create verifier (MongoDB auto-generates _id)
+    // ID validation
+    const talukaOfficerId = body.talukaOfficerId;
+    if (!talukaOfficerId) {
+      return res.status(400).json({ 
+        message: "Taluka Officer ID is required" 
+      });
+    }
+
+    // Create verifier
     const verifier = await Verifier.create(body);
-    const token = generateToken({ id: verifier._id });
 
-    // Assign existing crops if any
-    let cropAssignment = null;
-    if (verifier.district && verifier.allocatedTaluka?.length > 0) {
-      cropAssignment = await assignExistingCropsToVerifier(
-        verifier._id,
-        verifier.district,
-        verifier.allocatedTaluka
-      );
-    }
-
-    // 🔗 Auto-link verifier to TalukaOfficer based on taluka + district
-    const linkedOfficer = await TalukaOfficer.findOneAndUpdate(
-      {
-        taluka: { $regex: new RegExp(`^${verifier.taluka}$`, "i") },
-        district: { $regex: new RegExp(`^${verifier.district}$`, "i") },
-      },
+    // Link to taluka officer
+    const linkedOfficer = await TalukaOfficer.findByIdAndUpdate(
+      talukaOfficerId,
       { $addToSet: { verifierId: verifier._id } },
       { new: true }
     );
 
-    // Update verifier with linked talukaOfficerId for reference
-    if (linkedOfficer) {
-      await Verifier.findByIdAndUpdate(verifier._id, {
-        talukaOfficerId: linkedOfficer._id,
+    if (!linkedOfficer) {
+      // Agar taluka officer nahi mila, toh verifier delete karo
+      await Verifier.findByIdAndDelete(verifier._id);
+      return res.status(404).json({ 
+        message: "Taluka Officer not found with provided ID" 
       });
     }
 
+    // Verifier update with officer ID
+    await Verifier.findByIdAndUpdate(verifier._id, {
+      talukaOfficerId: linkedOfficer._id,
+    });
+
     return res.status(201).json({
-      message: linkedOfficer
-        ? "New Verifier Created & Linked to Taluka Officer"
-        : "New Verifier Created (No matching Taluka Officer found)",
-      verifier: {
+      message: "New Verifier Created & Linked to Taluka Officer",
+      data: {
         ...verifier.toObject(),
-        talukaOfficerId: linkedOfficer?._id || null,
+        talukaOfficerId: linkedOfficer._id,
       },
-      token,
-      cropAssignment,
-      linkedTo: linkedOfficer ? linkedOfficer._id : null,
     });
   } catch (err) {
     console.error("Error in verifierRegister:", err);
     return res.status(500).json({
-      error: "Error while verifier register",
+      error: "Error while registering verifier",
       details: err.message,
     });
   }
 };
-
 
 
 
