@@ -306,8 +306,9 @@ export const updateVerifier = async (req, res, next) => {
 
 export const getVerifiers = async (req, res, next) => {
   try {
-    const verifiers = await Verifier.find();
-
+      const verifiers = await Verifier.find();
+      console.log("Fetched verifiers:", verifiers);
+      
     if (verifiers.length === 0) {
       return res.status(409).json({
         message: "No verifiers found",
